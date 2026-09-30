@@ -253,7 +253,8 @@ details.more summary { cursor: pointer; font-weight: 600; color: var(--ink-2); p
 .rule b { font: 700 1.1rem/1.1 var(--font-display); letter-spacing: .03em; text-transform: uppercase; }
 .rule span { font-size: .88rem; color: var(--ink-2); }
 
-.tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--surface); font-size: .8rem; line-height: 1.35; padding: 7px 9px; border-radius: 6px; max-width: 260px; box-shadow: 0 4px 16px rgba(0,0,0,.18); }
+.has-tip { cursor: pointer; border-bottom: 1px dotted var(--muted); }
+.tip { white-space: pre-line; position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--surface); font-size: .8rem; line-height: 1.35; padding: 7px 9px; border-radius: 6px; max-width: 260px; box-shadow: 0 4px 16px rgba(0,0,0,.18); }
 footer { border-top: 1px solid var(--line); }
 footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82rem; color: var(--muted); }
 
@@ -1015,13 +1016,20 @@ $("mastMeta").innerHTML =
     [...all.log].reverse().map(p => `<tr><td class="l">${fmtDay(p.g.date)}</td><td class="l wrap-cell">${p.home ? "vs" : "at"} ${esc(tname(p.opp))}${p.g.conf ? "" : ' <span class="chip">Non-conf</span>'}</td><td>${p.gf}-${p.ga}</td><td class="l">${resChip(p.res)}</td></tr>`).join("") + `</tbody>`;
 })();
 
+// Number cell that lists the games behind it on hover or tap
+function gameListCell(r, n, games, what) {
+  if (!n) return "0";
+  const lines = games.map(p => `${fmtDay(p.g.date)} ${p.home ? "vs" : "at"} ${tname(p.opp)} (${ord(RANK[p.opp])})`);
+  return `<span class="has-tip" tabindex="0" data-tip="${esc(tname(r.id))}, ${n} ${what}:\n${esc(lines.join("\n"))}">${n}</span>`;
+}
+
 // ---------- Standings
 (function renderStandings() {
   const head = `<thead><tr><th class="l sticky-col">#&nbsp;&nbsp;Team</th><th>GP</th><th>W-L-T</th><th>Pts</th><th>GF</th><th>GA</th><th>GD</th><th class="l">Last 5</th><th>Left</th><th title="Remaining games against current top-6 teams">Top-6 left</th><th title="Average points per game of remaining opponents">Opp PPG</th><th>Max</th><th title="Chance to win or share the regular-season title, from the projection">Title</th><th title="Chance to finish 1st or 2nd after tiebreakers, which earns a first-round bye">Top 2</th></tr></thead>`;
   const body = STANDINGS.map((r, k) => {
     const cls = [r.id === CRO ? "cro" : "", k === HALF - 1 ? "cut" : ""].join(" ");
     return `<tr class="${cls}"><td class="l team sticky-col">${r.rank}&nbsp;&nbsp;${esc(tname(r.id))}</td><td>${r.gp}</td><td>${rec(r)}</td><td class="pts">${r.pts}</td><td>${r.gf}</td><td>${r.ga}</td><td>${sign(r.gd)}</td>
-      <td class="l"><span class="form">${r.form.map(resChip).join("")}</span></td><td>${r.left}</td><td>${r.topLeft}</td><td>${f2(r.sos)}</td><td>${r.maxPts}</td><td>${pct1(SIM.byTeam[r.id].first)}</td><td>${pct1(SIM.byTeam[r.id].top2)}</td></tr>`;
+      <td class="l"><span class="form">${r.form.map(resChip).join("")}</span></td><td>${gameListCell(r, r.left, r.remaining, "league games left")}</td><td>${gameListCell(r, r.topLeft, r.remaining.filter(p => TOP_HALF.has(p.opp)), "games left vs the top 6")}</td><td>${f2(r.sos)}</td><td>${r.maxPts}</td><td>${pct1(SIM.byTeam[r.id].first)}</td><td>${pct1(SIM.byTeam[r.id].top2)}</td></tr>`;
   }).join("");
   $("standings").innerHTML = head + `<tbody>${body}</tbody>`;
 
