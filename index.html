@@ -221,6 +221,9 @@ a.ext { color: inherit; text-decoration: underline; text-decoration-thickness: 1
 a.ext:hover { text-decoration-color: currentColor; }
 a.ext span { font-size: .8em; color: var(--muted); }
 
+.abbr-sm { display: none; }
+@media (max-width: 560px) { .hide-sm { display: none; } .full-sm { display: none; } .abbr-sm { display: inline; } #sim td, #sim th { white-space: normal; padding-inline: 6px; } #sim td.wrap-cell { min-width: 0; } #sim th { font-size: .66rem; letter-spacing: .04em; } }
+
 /* Diverging margin bars */
 .div-rows { display: grid; gap: 5px; }
 .div-row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 10px; align-items: center; font-size: .86rem; }
@@ -310,6 +313,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
     <a href="#stats">Stats</a>
     <a href="#schedule">Schedule</a>
     <a href="#playoffs">Playoffs</a>
+    <a href="#sim">State sim</a>
   </div>
 </nav>
 
@@ -492,6 +496,26 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
         </div>
       </div>
     </section>
+
+    <section id="sim" aria-labelledby="h-sim">
+      <div class="sec-head">
+        <div><span class="chip warn">Experimental</span></div>
+        <h2 id="h-sim">If the state tournament started today</h2>
+        <p id="simIntro"></p>
+      </div>
+      <div class="card">
+        <h3>Cromwell's path</h3>
+        <div class="tscroll" style="border:0;margin-top:8px"><table id="simPath"></table></div>
+      </div>
+      <div class="card">
+        <h3>Shoreline teams in the bracket</h3>
+        <p class="small muted" style="margin-top:6px">Chance to reach each round. The top 7 seeds get a bye into Round 2.</p>
+        <div class="tscroll" style="border:0;margin-top:8px"><table id="simShore"></table></div>
+      </div>
+      <details class="card more"><summary>All 25 seeds</summary><div class="tscroll" style="border:0;margin-top:8px"><table id="simAll"></table></div></details>
+      <p class="note" id="simNote"></p>
+    </section>
+
 
   </div>
 </main>
@@ -970,6 +994,56 @@ function commonOpponents(a, b) {
 if (typeof module !== "undefined") module.exports = { ALL_GAMES, STANDINGS, TOP_HALF, MODEL, SIM, CIAC, OUTSIDE, MARGINS,
   teamStats, splitRecord, commonOpponents, matchProbs, h2hCell, rec, ppg, ciacPct };
 
+// ---- EXPERIMENTAL: CIAC Class S bracket simulation from the power-ranking snapshot.
+// Seeds = today's qualifying order (records .400+, ranked by power points). 32-team bracket per
+// packet section 6.5; missing seeds are byes. Each game: power-point gap treated as an expected goal
+// margin, spread by ~1.3 goals; a regulation tie goes to OT/PKs as a coin flip. Our assumption, not the CIAC's.
+const STATE_SIM = (() => {
+  const Q = CIAC_SNAPSHOT.rows.filter(r => r[0] <= 25);
+  const n = Q.length, pts = {}, name = {}, sid = {};
+  Q.forEach(r => { pts[r[0]] = r[3]; name[r[0]] = r[1]; sid[r[0]] = r[4] || null; });
+  const R1 = [[1,32],[16,17],[8,25],[9,24],[4,29],[13,20],[5,28],[12,21],[2,31],[15,18],[7,26],[10,23],[3,30],[14,19],[6,27],[11,22]];
+  const SIG = 1.3;
+  const pWin = (a, b) => { // P(a beats b), incl. OT/PK coin flip on a regulation tie
+    const d = pts[a] - pts[b];
+    const pA = Phi((d - 0.5) / SIG), pB = Phi((-d - 0.5) / SIG);
+    return pA + (1 - pA - pB) / 2;
+  };
+  let seed = 11022026;
+  const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const N = 20000, ROUNDS = ["Round 1", "Round 2", "Quarterfinal", "Semifinal", "Final", "Champion"];
+  const reach = {}; for (let s = 1; s <= n; s++) reach[s] = Array(6).fill(0);
+  const opp = { 1: {}, 2: {}, 3: {}, 4: {} }; // Cromwell's opponents by round (1-based: R2..Final)
+  const croSeed = Q.find(r => r[4] === "CRO")?.[0];
+  const bye = {}; for (let s = 1; s <= n; s++) bye[s] = false;
+  R1.forEach(([a, b]) => { if (a <= n && b > n) bye[a] = true; });
+  for (let k = 0; k < N; k++) {
+    let alive = R1.map(([a, b]) => {
+      if (a <= n) reach[a][0]++; if (b <= n) reach[b][0]++;
+      if (b > n) return a; if (a > n) return b;
+      return rnd() < pWin(a, b) ? a : b;
+    });
+    for (let r = 1; r <= 4; r++) {
+      alive.forEach(s => reach[s][r]++);
+      const next = [];
+      for (let i = 0; i < alive.length; i += 2) {
+        const a = alive[i], b = alive[i + 1];
+        if (croSeed && (a === croSeed || b === croSeed)) { const o = a === croSeed ? b : a; opp[r][o] = (opp[r][o] || 0) + 1; }
+        next.push(rnd() < pWin(a, b) ? a : b);
+      }
+      alive = next;
+    }
+    reach[alive[0]][5]++;
+  }
+  const teams = Q.map(r => ({ seed: r[0], name: r[1], pts: r[3], id: r[4] || null, bye: bye[r[0]],
+    p: reach[r[0]].map(c => c / N) }));
+  const croOpp = {};
+  for (let r = 1; r <= 4; r++) croOpp[r] = Object.entries(opp[r]).map(([s, c]) => ({ seed: +s, name: name[s], id: sid[s], share: c / (reach[croSeed][r] || 1) }))
+    .sort((a, b) => b.share - a.share);
+  return { N, n, teams, ROUNDS, R1, croSeed, croOpp, pWin, byes: Object.values(bye).filter(Boolean).length };
+})();
+
 // ===== RENDER =====
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -1393,6 +1467,43 @@ $("foot").innerHTML = `
   let last = innerWidth, t = null;
   addEventListener("resize", () => { clearTimeout(t); t = setTimeout(() => {
     if (Math.abs(innerWidth - last) < 20) return; last = innerWidth; drawRating(); drawHist(); renderStats(); }, 150); });
+})();
+
+// ---------- Experimental: state tournament simulation
+(function renderStateSim() {
+  const S = STATE_SIM, T = Object.fromEntries(S.teams.map(t => [t.seed, t]));
+  const nm = t => t.id ? `<b>${esc(t.name)}</b>` : esc(t.name);
+  const nmS = t => t.id ? `<b><span class="full-sm">${esc(t.name)}</span><span class="abbr-sm">${esc(TEAM_BY_ID[t.id].name.replace("Haddam-Killingworth", "Haddam-K."))}</span></b>` : esc(t.name);
+  const p = x => x >= 0.9995 ? "100%" : pct1(x);
+  $("simIntro").textContent = `Uses today's CIAC Class S power ranking as the seeding. ${S.n} teams are at .400 or better, so the top ${S.byes} seeds get a first-round bye. The whole tournament is simulated ${S.N.toLocaleString()} times, so these numbers will move a lot as records and rankings change.`;
+
+  // Cromwell path
+  const c = T[S.croSeed];
+  if (c) {
+    const firstGame = S.R1.find(([a, b]) => a === c.seed || b === c.seed);
+    const rows = [];
+    if (!c.bye) {
+      const o = firstGame[0] === c.seed ? firstGame[1] : firstGame[0];
+      rows.push(["Round 1", "Fri Nov 6 or Sat Nov 7", c.seed < o ? "Home" : "Away", `#${o} ${nm(T[o])}`, 1]);
+    } else rows.push(["Round 1", "Fri Nov 6 or Sat Nov 7", "—", "Bye as a top-" + S.byes + " seed", 1]);
+    const meta = { 1: ["Round 2", "Mon Nov 9"], 2: ["Quarterfinal", "Thu Nov 12"], 3: ["Semifinal", "Nov 17–19"], 4: ["Final", "Nov 21 or 22"] };
+    for (let r = 1; r <= 4; r++) {
+      const likely = S.croOpp[r].slice(0, r === 1 ? 2 : 3).map(o => `#${o.seed} ${nm(T[o.seed])} <span class="muted">${pct1(o.share)}</span>`).join("<br>");
+      const where = r <= 2 ? (S.croOpp[r][0] && c.seed < S.croOpp[r][0].seed ? "Home" : "Higher seed hosts") : "Neutral site";
+      rows.push([meta[r][0], meta[r][1], where, likely, c.p[r]]);
+    }
+    $("simPath").innerHTML = `<thead><tr><th class="l">Round</th><th class="l">Most likely opponent</th><th title="Chance Cromwell reaches this round">Gets there</th></tr></thead><tbody>` +
+      rows.map(([a, d, w, o, x]) => `<tr><td class="l"><b>${a}</b><div class="small muted">${d}${w !== "—" ? " · " + w : ""}</div></td><td class="l wrap-cell">${o}</td><td>${p(x)}</td></tr>`).join("") +
+      `<tr class="cro"><td class="l"><b>Win it all</b></td><td class="l"></td><td class="pts">${p(c.p[5])}</td></tr></tbody>`;
+  }
+
+  const head = `<thead><tr><th class="l">Seed</th><th class="l">Team</th><th class="hide-sm">Power pts</th><th class="hide-sm">Rd 2</th><th>QF</th><th>Semis</th><th>Final</th><th>Title</th></tr></thead>`;
+  const row = t => `<tr class="${t.id === CRO ? "cro" : ""}"><td class="l">#${t.seed}${t.bye ? '<div class="small muted">bye</div>' : ""}</td><td class="l">${nmS(t)}</td><td class="hide-sm">${t.pts.toFixed(2)}</td>${[1, 2, 3, 4, 5].map(k => `<td class="${k === 1 ? "hide-sm" : ""}">${p(t.p[k])}</td>`).join("")}</tr>`;
+  $("simShore").innerHTML = head + `<tbody>${S.teams.filter(t => t.id).map(row).join("")}</tbody>`;
+  $("simAll").innerHTML = head + `<tbody>${S.teams.map(row).join("")}</tbody>`;
+
+  const gap = (a, b) => Math.round(S.pWin(a, b) * 100);
+  $("simNote").textContent = `How it works: seeding and the bracket follow the CIAC packet (1 vs 32, 16 vs 17 and so on). Each game uses the gap in CIAC power points as the expected goal margin, with results varying by about 1.3 goals, and a tie after 80 minutes decided by a coin flip for overtime and penalty kicks. With that scale, #1 beats #16 about ${gap(1, 16)}% of the time and #1 beats #2 about ${gap(1, 2)}% of the time. The CIAC has not said what a power point is worth in goals, so treat this as a rough guide. Rankings snapshot from ${fmtLong(isoDate(CIAC_SNAPSHOT.asOf))}. Final seeds are set Nov 3.`;
 })();
 
 </script>
