@@ -1016,6 +1016,13 @@ $("mastMeta").innerHTML =
     [...all.log].reverse().map(p => `<tr><td class="l">${fmtDay(p.g.date)}</td><td class="l wrap-cell">${p.home ? "vs" : "at"} ${esc(tname(p.opp))}${p.g.conf ? "" : ' <span class="chip">Non-conf</span>'}</td><td>${p.gf}-${p.ga}</td><td class="l">${resChip(p.res)}</td></tr>`).join("") + `</tbody>`;
 })();
 
+// Last-5 badge with the game behind it on hover or tap
+const RES_WORD = { W: "Won", L: "Lost", T: "Tied" };
+function formBadge(p) {
+  const tip = `${RES_WORD[p.res]} ${p.gf}-${p.ga} ${p.home ? "vs" : "at"} ${tname(p.opp)}\n${fmtDay(p.g.date)} · ${p.g.venue}`;
+  return `<span class="res ${p.res}" tabindex="0" style="cursor:pointer" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${p.res}</span>`;
+}
+
 // Number cell that lists the games behind it on hover or tap
 function gameListCell(r, n, games, what) {
   if (!n) return "0";
@@ -1029,7 +1036,7 @@ function gameListCell(r, n, games, what) {
   const body = STANDINGS.map((r, k) => {
     const cls = [r.id === CRO ? "cro" : "", k === HALF - 1 ? "cut" : ""].join(" ");
     return `<tr class="${cls}"><td class="l team sticky-col">${r.rank}&nbsp;&nbsp;${esc(tname(r.id))}</td><td>${r.gp}</td><td>${rec(r)}</td><td class="pts">${r.pts}</td><td>${r.gf}</td><td>${r.ga}</td><td>${sign(r.gd)}</td>
-      <td class="l"><span class="form">${r.form.map(resChip).join("")}</span></td><td>${gameListCell(r, r.left, r.remaining, "league games left")}</td><td>${gameListCell(r, r.topLeft, r.remaining.filter(p => TOP_HALF.has(p.opp)), "games left vs the top 6")}</td><td>${f2(r.sos)}</td><td>${r.maxPts}</td><td>${pct1(SIM.byTeam[r.id].first)}</td><td>${pct1(SIM.byTeam[r.id].top2)}</td></tr>`;
+      <td class="l"><span class="form">${r.log.slice(-5).map(formBadge).join("")}</span></td><td>${gameListCell(r, r.left, r.remaining, "league games left")}</td><td>${gameListCell(r, r.topLeft, r.remaining.filter(p => TOP_HALF.has(p.opp)), "games left vs the top 6")}</td><td>${f2(r.sos)}</td><td>${r.maxPts}</td><td>${pct1(SIM.byTeam[r.id].first)}</td><td>${pct1(SIM.byTeam[r.id].top2)}</td></tr>`;
   }).join("");
   $("standings").innerHTML = head + `<tbody>${body}</tbody>`;
 
