@@ -1,0 +1,1341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shoreline Boys Soccer 2026</title>
+<meta name="description" content="Standings, results, state tournament tracker and stats for the CIAC Shoreline Conference boys varsity soccer season.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a matchday program. Pitch-green masthead, then one column of sections a family scans top to bottom on a phone. */
+:root {
+  --bg: #f2f4f0;            /* page ground, faint grass tint */
+  --surface: #fbfcfa;       /* cards and tables */
+  --surface-2: #eceff0;     /* table header, zebra */
+  --ink: #111915;
+  --ink-2: #48524c;
+  --muted: #737d77;
+  --line: #d9dfd9;
+  --line-strong: #bcc5be;
+  --pitch: #155c3b;         /* masthead + Cromwell accent */
+  --pitch-ink: #ffffff;
+  --pitch-soft: #e1eee5;    /* Cromwell row tint */
+  --cro-ink: #155c3b;       /* Cromwell text highlight */
+  --cro-mark: #155c3b;      /* Cromwell marks in charts */
+  --on-strong: #ffffff;     /* text on the darkest result fills */
+  --focus: #1d6ed8;
+  /* results, diverging: blue = won, red = lost, grey = tied; darker = bigger margin */
+  --w1: #b7d3f6; --w2: #5598e7; --w3: #1c5cab;
+  --l1: #f6c3bd; --l2: #e66767; --l3: #b3302f;
+  --tie: #cfd2cc;
+  --w-ink: #0d3f78; --l-ink: #8a1f1f; --t-ink: #3e433f;
+  --bar: #2a78d6;           /* single-series bars */
+  --bar-muted: #b9c2bc;
+  --good: #0c7a0c; --warn: #9a6400; --bad: #b3302f;
+  --good-bg: #dff1df; --warn-bg: #fbeed2; --bad-bg: #f8e0de;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1412; --surface: #171d1a; --surface-2: #1f2723;
+    --ink: #eef2ef; --ink-2: #b9c3bd; --muted: #87918b; --line: #2a332e; --line-strong: #3b463f;
+    --pitch: #1b6b46; --pitch-ink: #ffffff; --pitch-soft: #1d3327; --focus: #6da7ec;
+  --cro-ink: #6fd7a2; --cro-mark: #3fbf7f; --on-strong: #111915;
+    --cro-ink: #6fd7a2; --cro-mark: #3fbf7f; --on-strong: #111915;
+    --w1: #1f4a7d; --w2: #2f73c4; --w3: #6da7ec;
+    --l1: #6b2b2b; --l2: #b84545; --l3: #ee7d7d;
+    --tie: #4a4f4b; --w-ink: #cfe2fa; --l-ink: #fbd3d0; --t-ink: #e3e6e3;
+    --bar: #3987e5; --bar-muted: #4b5650;
+    --good: #4ec24e; --warn: #f0b64a; --bad: #ee7d7d;
+    --good-bg: #173a1d; --warn-bg: #3d2f12; --bad-bg: #3e1d1d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1412; --surface: #171d1a; --surface-2: #1f2723;
+  --ink: #eef2ef; --ink-2: #b9c3bd; --muted: #87918b; --line: #2a332e; --line-strong: #3b463f;
+  --pitch: #1b6b46; --pitch-ink: #ffffff; --pitch-soft: #1d3327; --focus: #6da7ec;
+  --cro-ink: #6fd7a2; --cro-mark: #3fbf7f; --on-strong: #111915;
+  --w1: #1f4a7d; --w2: #2f73c4; --w3: #6da7ec;
+  --l1: #6b2b2b; --l2: #b84545; --l3: #ee7d7d;
+  --tie: #4a4f4b; --w-ink: #cfe2fa; --l-ink: #fbd3d0; --t-ink: #e3e6e3;
+  --bar: #3987e5; --bar-muted: #4b5650;
+  --good: #4ec24e; --warn: #f0b64a; --bad: #ee7d7d;
+  --good-bg: #173a1d; --warn-bg: #3d2f12; --bad-bg: #3e1d1d;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--font-body); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 16px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; text-wrap: balance; margin: 0; }
+h2 { font-size: 2rem; font-weight: 700; letter-spacing: .01em; text-transform: uppercase; }
+h3 { font-size: 1.3rem; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: var(--ink); }
+p { margin: 0; }
+a { color: inherit; }
+.num { font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.small { font-size: .82rem; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+/* Masthead */
+.mast { background: var(--pitch); color: var(--pitch-ink); position: relative; overflow: hidden; }
+.mast svg.lines { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .16; pointer-events: none; }
+.mast .wrap { position: relative; padding-block: 28px 22px; display: grid; gap: 10px; }
+.eyebrow { font: 600 .78rem/1.2 var(--font-body); letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
+.mast h1 { font-size: clamp(2.6rem, 8vw, 4.4rem); font-weight: 700; text-transform: uppercase; letter-spacing: .01em; }
+.mast .meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .9rem; opacity: .92; }
+
+/* Sticky section nav */
+nav.jump { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+nav.jump .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-block: 8px; }
+nav.jump a { flex: none; text-decoration: none; font: 600 .95rem/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase;
+  padding: 8px 12px; border-radius: 999px; color: var(--ink-2); }
+nav.jump a:hover { background: var(--surface-2); color: var(--ink); }
+
+main .wrap { display: grid; gap: 44px; padding-block: 28px 56px; }
+section { display: grid; gap: 16px; scroll-margin-top: 64px; min-width: 0; }
+.sec-head { display: grid; gap: 6px; }
+.sec-head p { color: var(--ink-2); max-width: 68ch; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; min-width: 0; }
+.card > h3 + * { margin-top: 10px; }
+.grid-2 { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); align-items: start; }
+.note { font-size: .82rem; color: var(--muted); max-width: 80ch; }
+
+/* Stat tiles (Cromwell) */
+.tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+@media (max-width: 560px) { .tiles { grid-template-columns: 1fr 1fr; gap: 10px; } .tile { padding: 12px; } .tile .v { font-size: 2rem; } .tile .d { font-size: .8rem; } }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
+.tile .k { font: 600 .74rem/1.2 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.tile .v { font: 700 2.4rem/1 var(--font-display); }
+.tile .d { font-size: .86rem; color: var(--ink-2); }
+
+.next { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); border-left: 4px solid var(--cro-mark); }
+.next .when { font: 700 1.6rem/1.05 var(--font-display); text-transform: uppercase; }
+.next .opp { font: 600 1.15rem/1.3 var(--font-body); }
+.next dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; font-size: .92rem; }
+.next dt { color: var(--muted); }
+.next dd { margin: 0; }
+.prob { display: grid; gap: 6px; }
+.prob .bar3 { display: flex; height: 12px; border-radius: 6px; overflow: hidden; gap: 2px; }
+.prob .bar3 span { display: block; height: 100%; }
+.prob .legend3 { display: flex; justify-content: space-between; font-size: .8rem; color: var(--ink-2); }
+
+/* Tables */
+.tscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { padding: 8px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line); }
+th { font: 600 .72rem/1.2 var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); position: sticky; top: 0; }
+th.l, td.l { text-align: left; }
+td.wrap-cell { white-space: normal; min-width: 9rem; }
+.h2h .abbr { display: none; }
+@media (max-width: 560px) { .h2h .full { display: none; } .h2h .abbr { display: inline; } }
+tbody tr:last-child td { border-bottom: 0; }
+tr.cro td { background: var(--pitch-soft); }
+tr.cut td { border-bottom: 2px solid var(--line-strong); }
+td.team { font-weight: 600; }
+.sticky-col { position: sticky; left: 0; background: inherit; z-index: 1; }
+th.sticky-col { background: var(--surface-2); z-index: 3; }
+tbody tr { background: var(--surface); }
+tbody tr.cro { background: var(--pitch-soft); }
+td.pts { font-weight: 700; font-size: 1.05rem; }
+.form { display: inline-flex; gap: 3px; }
+
+.res { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 5px; font: 700 .74rem/1 var(--font-body); }
+.res.W { background: var(--w1); color: var(--w-ink); }
+.res.L { background: var(--l1); color: var(--l-ink); }
+.res.T { background: var(--tie); color: var(--t-ink); }
+
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font: 600 .72rem/1.5 var(--font-body); letter-spacing: .03em; border: 1px solid var(--line-strong); color: var(--ink-2); white-space: nowrap; }
+.chip.big { border-color: var(--cro-mark); color: var(--cro-ink); }
+.chip.good { background: var(--good-bg); color: var(--good); border-color: transparent; }
+.chip.warn { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+.chip.bad { background: var(--bad-bg); color: var(--bad); border-color: transparent; }
+
+/* Head-to-head grid */
+.h2h table { width: auto; border-collapse: separate; border-spacing: 3px; }
+.h2h th, .h2h td { padding: 0; border: 0; }
+.h2h td.cell { width: 46px; min-width: 46px; height: 32px; text-align: center; font: 600 .78rem/1 var(--font-body); border-radius: 5px; }
+.h2h td.cell.W { background: var(--w1); color: var(--w-ink); }
+.h2h td.cell.W3 { background: var(--w2); color: #fff; }
+.h2h td.cell.L { background: var(--l1); color: var(--l-ink); }
+.h2h td.cell.L3 { background: var(--l2); color: #fff; }
+.h2h td.cell.T { background: var(--tie); color: var(--t-ink); }
+.h2h td.cell.up { background: transparent; color: var(--muted); font-weight: 500; font-size: .7rem; outline: 1px dashed var(--line-strong); outline-offset: -3px; }
+.h2h td.cell.self { background: var(--surface-2); }
+.h2h th.rowh { text-align: left; padding: 0 10px 0 4px; font: 600 .85rem/1 var(--font-body); color: var(--ink); text-transform: none; letter-spacing: 0; background: var(--surface); position: sticky; left: 0; z-index: 2; }
+.h2h th.colh { padding: 0 0 6px; font: 700 .72rem/1 var(--font-body); color: var(--ink-2); background: var(--surface); text-align: center; }
+.h2h .cro { color: var(--cro-ink); }
+.h2h tr.croRow th.rowh { box-shadow: inset 3px 0 0 var(--cro-mark); }
+
+/* Charts */
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { font: 500 12px var(--font-body); fill: var(--ink-2); }
+.chart .axis-label { fill: var(--muted); font-size: 11px; letter-spacing: .04em; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .avg { stroke: var(--line-strong); stroke-dasharray: 4 4; }
+.chart .quad { fill: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.chart .dot { fill: var(--ink-2); stroke: var(--surface); stroke-width: 2; }
+.chart .dot.cro { fill: var(--cro-mark); }
+.chart .dlabel { font-weight: 600; fill: var(--ink); }
+.chart .hit { fill: transparent; cursor: pointer; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .8rem; color: var(--ink-2); align-items: center; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
+
+.hbars { display: grid; gap: 6px; }
+.hbar { display: grid; grid-template-columns: 9.5rem 1fr 4.2rem; gap: 10px; align-items: center; font-size: .88rem; }
+.hbar .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hbar .track { height: 14px; position: relative; }
+.hbar .fill { position: absolute; top: 0; bottom: 0; left: 0; background: var(--bar); border-radius: 0 4px 4px 0; }
+.hbar.cro .nm { font-weight: 700; color: var(--cro-ink); }
+.hbar.cro .fill { background: var(--cro-mark); }
+.hbar .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.hbar .val b { color: var(--ink); }
+
+.pair { display: grid; grid-template-columns: 9.5rem 1fr 4.6rem; gap: 10px; align-items: center; font-size: .88rem; padding: 4px 0; }
+.pair .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pair.cro .nm { font-weight: 700; color: var(--cro-ink); }
+.pair .bars { display: grid; gap: 3px; }
+.pair .bars span { display: block; height: 9px; border-radius: 0 3px 3px 0; min-width: 2px; }
+.pair .b1 { background: var(--bar); }
+.pair .b2 { background: var(--w1); box-shadow: inset 0 0 0 1px var(--w2); }
+.pair.cro .b1 { background: var(--cro-mark); }
+.pair .val { display: grid; text-align: right; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.pair .val span { color: var(--ink-2); font-size: .8rem; }
+@media (max-width: 560px) { .pair { grid-template-columns: 6.8rem 1fr 3.8rem; } }
+
+/* Diverging margin bars */
+.div-rows { display: grid; gap: 5px; }
+.div-row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 10px; align-items: center; font-size: .86rem; }
+.div-row .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.div-row.cro .nm { font-weight: 700; color: var(--cro-ink); }
+.div-track { position: relative; height: 18px; }
+.div-track .axis { position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--line-strong); }
+.seg { position: absolute; top: 0; bottom: 0; display: grid; place-items: center; font: 700 .68rem/1 var(--font-body); }
+.seg.W1 { background: var(--w1); color: var(--w-ink); } .seg.W2 { background: var(--w2); color: #fff; } .seg.W3 { background: var(--w3); color: var(--on-strong); }
+.seg.L1 { background: var(--l1); color: var(--l-ink); } .seg.L2 { background: var(--l2); color: #fff; } .seg.L3 { background: var(--l3); color: var(--on-strong); }
+.seg.T { background: var(--tie); color: var(--t-ink); }
+.seg { box-shadow: inset -2px 0 0 var(--surface); }
+
+.facts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.fact { border-top: 3px solid var(--line-strong); padding-top: 8px; display: grid; gap: 2px; }
+.fact b { font: 700 1.9rem/1 var(--font-display); }
+.fact span { font-size: .86rem; color: var(--ink-2); }
+
+/* Segmented control */
+.seg-ctl { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px; gap: 2px; background: var(--surface); }
+.seg-ctl button { font: 600 .85rem/1 var(--font-body); border: 0; background: transparent; color: var(--ink-2); padding: 8px 14px; border-radius: 999px; cursor: pointer; }
+.seg-ctl button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+select, .check { font: 500 .9rem var(--font-body); color: var(--ink); }
+select { padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--surface); }
+.check { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Schedule */
+.day { display: grid; gap: 0; }
+.day h4 { margin: 0; padding: 10px 0 6px; font: 700 1.05rem/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); border-bottom: 1px solid var(--line); }
+.game { display: grid; grid-template-columns: 4.6rem 1fr auto; gap: 4px 12px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.game .t { font-variant-numeric: tabular-nums; color: var(--ink-2); font-size: .88rem; }
+.game .m { font-weight: 600; min-width: 0; }
+.game .m .at { color: var(--muted); font-weight: 400; }
+.game .v { grid-column: 2 / -1; font-size: .82rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
+.game .x { font-size: .82rem; color: var(--ink-2); text-align: right; }
+.game.cro .m { color: var(--cro-ink); }
+.game.done .x { font-weight: 700; color: var(--ink); }
+
+details.more summary { cursor: pointer; font-weight: 600; color: var(--ink-2); padding: 6px 0; }
+.rules { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.rule { display: grid; gap: 4px; }
+.rule b { font: 700 1.1rem/1.1 var(--font-display); letter-spacing: .03em; text-transform: uppercase; }
+.rule span { font-size: .88rem; color: var(--ink-2); }
+
+.tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--surface); font-size: .8rem; line-height: 1.35; padding: 7px 9px; border-radius: 6px; max-width: 260px; box-shadow: 0 4px 16px rgba(0,0,0,.18); }
+footer { border-top: 1px solid var(--line); }
+footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82rem; color: var(--muted); }
+
+@media (max-width: 560px) {
+  h2 { font-size: 1.7rem; }
+  .hbar { grid-template-columns: 6.8rem 1fr 3.8rem; }
+  .div-row { grid-template-columns: 6.4rem 1fr; }
+  th, td { padding: 7px 8px; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <svg class="lines" viewBox="0 0 1200 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#fff" stroke-width="3">
+      <line x1="600" y1="-10" x2="600" y2="270"/>
+      <circle cx="600" cy="130" r="92"/>
+      <circle cx="600" cy="130" r="5" fill="#fff"/>
+      <rect x="-40" y="40" width="200" height="180"/>
+      <rect x="1040" y="40" width="200" height="180"/>
+      <path d="M160 88 A60 60 0 0 1 160 172"/>
+      <path d="M1040 88 A60 60 0 0 0 1040 172"/>
+    </g>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow">CIAC Shoreline Conference · Boys Varsity</div>
+    <h1>Shoreline Boys Soccer 2026</h1>
+    <div class="meta" id="mastMeta"></div>
+  </div>
+</header>
+
+<nav class="jump" aria-label="Sections">
+  <div class="wrap">
+    <a href="#cromwell">Cromwell</a>
+    <a href="#table">Standings</a>
+    <a href="#grid">Results grid</a>
+    <a href="#state">State tourney</a>
+    <a href="#stats">Stats</a>
+    <a href="#schedule">Schedule</a>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <section id="cromwell" aria-labelledby="h-cro">
+      <div class="sec-head">
+        <h2 id="h-cro">Cromwell Panthers</h2>
+        <p id="croStake"></p>
+      </div>
+      <div class="tiles" id="croTiles"></div>
+      <div class="card next" id="croNext"></div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Still to play</h3>
+          <div class="tscroll" style="border:0;border-radius:0"><table id="croLeft"></table></div>
+        </div>
+        <div class="card">
+          <h3>Results so far</h3>
+          <div class="tscroll" style="border:0;border-radius:0"><table id="croDone"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="table" aria-labelledby="h-table">
+      <div class="sec-head">
+        <h2 id="h-table">Shoreline standings</h2>
+        <p>Conference games only. 3 points for a win, 1 for a tie. The line under 6th splits the league into a top and bottom half, and that split updates as results come in.</p>
+      </div>
+      <div class="tscroll"><table id="standings"></table></div>
+      <p class="note" id="tbNote"></p>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Title and bye race</h3>
+          <p class="small muted" style="margin-top:6px">From 20,000 simulated finishes of the remaining conference schedule. The top two earn a first-round bye in the Shoreline tournament. Just for fun: it only knows this season's Shoreline scores.</p>
+          <div class="hbars" id="titleOdds" style="margin-top:12px"></div>
+        </div>
+        <div class="card">
+          <h3>Power rating</h3>
+          <p class="small muted" style="margin-top:6px">Expected goal margin against an average Shoreline team. Built from every game between two Shoreline teams, with any win by more than 3 counted as 3 so blowouts of weak teams don't inflate it.</p>
+          <div class="chart" id="ratingChart" style="margin-top:8px"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="grid" aria-labelledby="h-grid">
+      <div class="sec-head">
+        <h2 id="h-grid">Results grid</h2>
+        <p>Every conference matchup in one place. Read across a row for that team's result against each opponent. Dashed boxes are games still to come, with the date.</p>
+      </div>
+      <div class="legend"><span><i style="background:var(--w1)"></i>Won</span><span><i style="background:var(--w2)"></i>Won by 3+</span><span><i style="background:var(--tie)"></i>Tied</span><span><i style="background:var(--l1)"></i>Lost</span><span><i style="background:var(--l2)"></i>Lost by 3+</span></div>
+      <div class="tscroll h2h"><div style="padding:12px"><table id="h2h"></table></div></div>
+    </section>
+
+    <section id="state" aria-labelledby="h-state">
+      <div class="sec-head">
+        <h2 id="h-state">State tournament</h2>
+        <p>All varsity games count here, league and non-league. The CIAC changed how it seeds the tournament this year.</p>
+      </div>
+      <div class="card rules">
+        <div class="rule"><b>How to qualify</b><span>Play at least 10 games and finish at .400 or better. Win pct = (2 × wins + ties) ÷ (2 × games). Only the first two games against the same opponent count.</span></div>
+        <div class="rule"><b>How seeds are set</b><span>New for 2026: a power ranking that combines a league strength multiplier with each team's own results. The formula is not published, so this page shows the CIAC's own number.</span></div>
+        <div class="rule"><b>Key dates</b><span>Last day a game counts: Mon Nov 2. Pairings posted Tue Nov 3. Class S first round Nov 6–7, second round Nov 9, quarterfinals Nov 12, semis Nov 17–19, finals Nov 21–22.</span></div>
+      </div>
+      <div class="tscroll"><table id="ciac"></table></div>
+      <p class="note" id="ciacNote"></p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Shoreline vs everyone else</h3>
+          <p class="small muted" style="margin-top:6px">Non-league results against teams outside the Shoreline. These feed the league multiplier in the CIAC power ranking, so every Shoreline team's result against an outside opponent affects the seeds of all 12.</p>
+          <div class="facts" id="outsideFacts" style="margin-top:12px"></div>
+          <details class="more" style="margin-top:10px"><summary>All results against outside teams</summary><div class="tscroll" style="border:0"><table id="outsideList"></table></div></details>
+        </div>
+        <div class="card">
+          <h3>Class S power ranking</h3>
+          <p class="small muted" style="margin-top:6px" id="classSNote"></p>
+          <div class="tscroll" style="border:0;margin-top:8px"><table id="classS"></table></div>
+          <details class="more"><summary>Teams 26–48 (below .400 today)</summary><div class="tscroll" style="border:0"><table id="classS2"></table></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section id="stats" aria-labelledby="h-stats">
+      <div class="sec-head">
+        <h2 id="h-stats">Team stats</h2>
+        <p>Switch between conference games only and every game since the season opened on Sept 8.</p>
+      </div>
+      <div class="toolbar">
+        <div class="seg-ctl" role="group" aria-label="Games to include">
+          <button type="button" id="scopeConf" aria-pressed="true">Shoreline games</button>
+          <button type="button" id="scopeAll" aria-pressed="false">All games</button>
+        </div>
+      </div>
+
+      <div class="card chart">
+        <h3>Attack vs defense</h3>
+        <p class="small muted" style="margin-top:6px">Goals scored per game across, goals allowed per game up the side. Up and to the right is better. Dashed lines mark the league average.</p>
+        <div id="scatter" style="margin-top:8px"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card"><h3>Most goals scored</h3><div class="hbars" id="rankGF"></div></div>
+        <div class="card"><h3>Fewest goals allowed</h3><div class="hbars" id="rankGA"></div></div>
+      </div>
+
+      <div class="card">
+        <h3>How games were won and lost</h3>
+        <p class="small muted" style="margin-top:6px">Each game as one block. Losses run left of the center line, wins run right, ties sit on the line. Darker means a bigger margin.</p>
+        <div class="legend" style="margin-top:10px"><span><i style="background:var(--l3)"></i>Lost by 3+</span><span><i style="background:var(--l2)"></i>by 2</span><span><i style="background:var(--l1)"></i>by 1</span><span><i style="background:var(--tie)"></i>Tied</span><span><i style="background:var(--w1)"></i>Won by 1</span><span><i style="background:var(--w2)"></i>by 2</span><span><i style="background:var(--w3)"></i>by 3+</span></div>
+        <div class="div-rows" id="marginRows" style="margin-top:12px"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card chart">
+          <h3>Winning margins across the league</h3>
+          <p class="small muted" style="margin-top:6px">Conference games by final goal difference.</p>
+          <div id="marginHist" style="margin-top:8px"></div>
+        </div>
+        <div class="card">
+          <h3>What the margins say</h3>
+          <div class="facts" id="marginFacts" style="margin-top:12px"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Against the top half and in close games</h3>
+        <p class="small muted" style="margin-top:6px">Conference games only. Top half means the current top 6. Goal difference against the top half shows who is scoring against good teams, not just piling up goals on weaker ones.</p>
+        <div class="tscroll" style="border:0;margin-top:8px"><table id="splits"></table></div>
+      </div>
+
+      <div class="card">
+        <h3>Home and away</h3>
+        <p class="small muted" style="margin-top:6px" id="haNote"></p>
+        <div class="tscroll" style="border:0;margin-top:8px"><table id="homeAway"></table></div>
+      </div>
+    </section>
+
+    <section id="schedule" aria-labelledby="h-sched">
+      <div class="sec-head">
+        <h2 id="h-sched">Upcoming games</h2>
+        <p>Big game marks a conference game between two current top-half teams. Projections come from the power rating and are for fun.</p>
+      </div>
+      <div class="toolbar">
+        <label for="teamFilter" class="small muted">Team</label>
+        <select id="teamFilter"></select>
+        <label class="check"><input type="checkbox" id="showNL"> Include non-conference games</label>
+      </div>
+      <div class="card" id="schedList"></div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap" id="foot"></div>
+</footer>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+// ===== DATA — edit this block to update the dashboard =====
+// Game row: [date "M/D", time, home, away, homeScore, awayScore, kind, venue]
+// kind: "C" = Shoreline conference game, "N" = non-conference (counts for CIAC only).
+// Shoreline teams use their 3-letter code; anyone else uses their school name.
+// Leave both scores null until the game is played. Preseason (before 9/8) is excluded.
+const SEASON_YEAR = 2026;
+const AS_OF = { results: "2026-09-29", updated: "2026-09-30" };
+
+const TEAMS = [
+  { id: "CRO", name: "Cromwell", abbr: "CRO", field: "Cromwell HS" },
+  { id: "HK",  name: "Haddam-Killingworth", abbr: "HK", field: "HKHS Press Box Field" },
+  { id: "OS",  name: "Old Saybrook", abbr: "OS", field: "Old Saybrook HS Turf" },
+  { id: "MOR", name: "Morgan", abbr: "MOR", field: "Indian River Complex" },
+  { id: "EH",  name: "East Hampton", abbr: "EH", field: "East Hampton HS Main Field" },
+  { id: "VAL", name: "Valley Regional", abbr: "VAL", field: "Richard B. Blythe Turf" },
+  { id: "POR", name: "Portland", abbr: "POR", field: "Portland HS Varsity Field" },
+  { id: "LOL", name: "Lyme-Old Lyme", abbr: "LOL", field: "Lyme-Old Lyme HS Turf" },
+  { id: "HR",  name: "Hale Ray", abbr: "HR", field: "Tom Nevers Field" },
+  { id: "COG", name: "Coginchaug", abbr: "COG", field: "Wally Camp Complex" },
+  { id: "NB",  name: "North Branford", abbr: "NB", field: "NBHS Front Field" },
+  { id: "WB",  name: "Westbrook", abbr: "WB", field: "Westbrook HS Field #2" }
+];
+
+// CIAC division of non-Shoreline opponents (from the schedule pages)
+const OUTSIDE_CLASS = {
+  "Grasso Tech": "L", "Wheeler": "S", "St. Joseph": "M", "E.O. Smith": "L", "Abbott Tech": "L",
+  "Canton": "S", "Ansonia": "M", "Amistad": "M", "Lyman Memorial": "S", "East Lyme": "L",
+  "Stonington": "S", "Platt Tech": "L", "Putnam": "S", "Middletown": "L", "Branford": "L",
+  "Northwest Catholic": "S", "Jonathan Law": "M", "Joel Barlow": "M", "Waterford": "M",
+  "Ledyard": "M", "Bolton": "S", "Bacon Academy": "M", "Plainfield": "M", "Lyman Hall": "L",
+  "Norwich Tech": "L", "Cheney Tech": "L", "Plainville": "M", "HMTCA": "S", "Vinal Tech": "M",
+  "Wolcott": "M", "Manchester": "LL", "East Granby": "S", "Suffield": "M", "Wilcox Tech": "L",
+  "St. Paul Catholic": "S", "Comp Sci": "M"
+};
+
+const GAMES = [
+  // ---- Played: conference ----
+  ["9/8","4:00 PM","NB","CRO",0,10,"C","NBHS Front Field"],
+  ["9/8","6:30 PM","OS","EH",2,2,"C","Old Saybrook HS Turf"],
+  ["9/8","4:00 PM","LOL","MOR",1,0,"C","Lyme-Old Lyme HS Turf"],
+  ["9/8","4:00 PM","POR","HK",0,5,"C","Portland HS Varsity Field"],
+  ["9/8","4:00 PM","HR","VAL",1,7,"C","Tom Nevers Field"],
+  ["9/8","4:00 PM","COG","WB",7,0,"C","CRHS Stadium Field"],
+  ["9/10","6:00 PM","COG","CRO",0,4,"C","Wally Camp Complex"],
+  ["9/10","4:00 PM","EH","NB",9,0,"C","East Hampton HS Main Field"],
+  ["9/10","4:00 PM","LOL","POR",1,2,"C","Lyme-Old Lyme HS Turf"],
+  ["9/11","3:45 PM","HK","OS",2,1,"C","HKHS Press Box Field"],
+  ["9/11","4:00 PM","HR","MOR",0,5,"C","Tom Nevers Field"],
+  ["9/11","4:00 PM","WB","VAL",3,5,"C","Westbrook HS Field #2"],
+  ["9/14","4:00 PM","OS","LOL",3,2,"C","Old Saybrook HS Turf"],
+  ["9/14","6:00 PM","MOR","WB",9,0,"C","Indian River Complex"],
+  ["9/15","4:00 PM","CRO","EH",1,2,"C","Cromwell HS Main Field"],
+  ["9/15","3:45 PM","VAL","COG",2,0,"C","Richard B. Blythe Turf"],
+  ["9/15","7:00 PM","HR","POR",1,2,"C","Tom Nevers Field"],
+  ["9/16","3:45 PM","HK","NB",9,0,"C","HKHS Press Box Field"],
+  ["9/17","6:00 PM","COG","EH",0,3,"C","Wally Camp Complex"],
+  ["9/18","3:45 PM","CRO","HK",4,0,"C","Cromwell HS Main Field"],
+  ["9/18","4:30 PM","HR","OS",0,9,"C","Tom Nevers Field"],
+  ["9/18","6:30 PM","VAL","MOR",1,1,"C","Richard B. Blythe Turf"],
+  ["9/18","4:00 PM","NB","LOL",0,4,"C","NBHS Front Field"],
+  ["9/18","4:00 PM","WB","POR",0,4,"C","Westbrook HS Field #2"],
+  ["9/21","6:00 PM","COG","MOR",0,5,"C","Wally Camp Complex"],
+  ["9/25","4:00 PM","CRO","LOL",1,0,"C","Cromwell HS Main Field"],
+  ["9/25","4:00 PM","EH","HK",1,3,"C","East Hampton HS Main Field"],
+  ["9/25","4:00 PM","POR","VAL",0,0,"C","Portland HS Varsity Field"],
+  ["9/25","6:30 PM","OS","WB",12,1,"C","Old Saybrook HS Turf"],
+  ["9/28","4:00 PM","OS","VAL",2,1,"C","Old Saybrook HS Turf"],
+  ["9/28","4:00 PM","MOR","POR",7,1,"C","Indian River Complex"],
+  ["9/28","3:30 PM","HK","COG",6,0,"C","Vale Sports Complex, Middletown"],
+  ["9/29","4:00 PM","CRO","HR",9,0,"C","Cromwell HS Main Field"],
+  ["9/29","4:00 PM","LOL","EH",2,4,"C","Lyme-Old Lyme HS Track Field"],
+  ["9/29","4:00 PM","WB","NB",5,2,"C","Westbrook HS Field #2"],
+
+  // ---- Played: non-conference ----
+  ["9/10","3:45 PM","Grasso Tech","HR",0,3,"N","Grasso Tech"],
+  ["9/11","4:00 PM","Wheeler","POR",0,2,"N","Wheeler MHS Main Field"],
+  ["9/12","4:00 PM","MOR","St. Joseph",3,1,"N","Indian River Complex"],
+  ["9/12","10:00 AM","EH","E.O. Smith",2,2,"N","East Hampton HS Main Field"],
+  ["9/12","11:00 AM","COG","Abbott Tech",1,5,"N","Wally Camp Complex"],
+  ["9/19","2:00 PM","Canton","HK",2,1,"N","Canton HS Turf"],
+  ["9/19","12:30 PM","POR","Ansonia",1,2,"N","Portland HS Varsity Field"],
+  ["9/21","4:00 PM","EH","CRO",2,1,"N","East Hampton HS Main Field"],
+  ["9/21","6:30 PM","NB","Amistad",2,5,"N","NBHS Colafati Field"],
+  ["9/21","3:45 PM","Grasso Tech","WB",4,1,"N","Grasso Tech"],
+  ["9/23","6:00 PM","CRO","VAL",2,0,"N","Cromwell HS Soccer Field"],
+  ["9/23","4:00 PM","OS","Lyman Memorial",7,1,"N","Old Saybrook HS Turf"],
+  ["9/23","6:30 PM","MOR","East Lyme",2,2,"N","Indian River Complex"],
+  ["9/23","3:45 PM","HK","Stonington",2,1,"N","HKHS Press Box Field"],
+  ["9/23","4:00 PM","Wheeler","LOL",0,0,"N","Wheeler MHS Main Field"],
+  ["9/23","3:45 PM","NB","Platt Tech",3,0,"N","NBHS Front Field"],
+  ["9/23","4:00 PM","WB","Amistad",1,4,"N","Westbrook HS Field #2"],
+  ["9/24","6:00 PM","HR","Putnam",7,1,"N","Tom Nevers Field"],
+
+  // ---- Upcoming: conference ----
+  ["10/1","4:00 PM","MOR","OS",null,null,"C","Indian River Complex"],
+  ["10/1","4:00 PM","CRO","WB",null,null,"C","Cromwell HS Main Field"],
+  ["10/1","3:45 PM","HK","LOL",null,null,"C","HKHS Press Box Field"],
+  ["10/1","4:00 PM","HR","EH",null,null,"C","Tom Nevers Field"],
+  ["10/1","4:00 PM","VAL","NB",null,null,"C","Richard B. Blythe Turf"],
+  ["10/2","4:00 PM","NB","HR",null,null,"C","NBHS Front Field"],
+  ["10/3","12:00 PM","COG","POR",null,null,"C","Wally Camp Complex"],
+  ["10/4","2:00 PM","EH","WB",null,null,"C","East Hampton HS Main Field"],
+  ["10/5","3:45 PM","VAL","CRO",null,null,"C","Richard B. Blythe Turf"],
+  ["10/5","4:00 PM","POR","OS",null,null,"C","Portland HS Varsity Field"],
+  ["10/5","3:45 PM","NB","MOR",null,null,"C","NBHS Front Field"],
+  ["10/5","4:00 PM","HR","HK",null,null,"C","Tom Nevers Field"],
+  ["10/5","4:00 PM","LOL","COG",null,null,"C","Lyme-Old Lyme HS Turf"],
+  ["10/8","6:00 PM","MOR","CRO",null,null,"C","Indian River Complex"],
+  ["10/8","4:00 PM","WB","HK",null,null,"C","Westbrook HS Field #2"],
+  ["10/8","6:30 PM","OS","COG",null,null,"C","Old Saybrook HS Turf"],
+  ["10/8","6:30 PM","POR","NB",null,null,"C","Portland HS Varsity Field"],
+  ["10/8","4:00 PM","LOL","HR",null,null,"C","Lyme-Old Lyme HS Turf"],
+  ["10/9","6:00 PM","EH","VAL",null,null,"C","East Hampton HS Main Field"],
+  ["10/12","11:00 AM","CRO","POR",null,null,"C","Cromwell HS Soccer Field 2"],
+  ["10/12","4:00 PM","MOR","EH",null,null,"C","Indian River Complex"],
+  ["10/13","6:00 PM","HK","VAL",null,null,"C","HKHS Press Box Field"],
+  ["10/13","4:00 PM","OS","NB",null,null,"C","Old Saybrook HS Turf"],
+  ["10/13","6:00 PM","COG","HR",null,null,"C","Wally Camp Complex"],
+  ["10/15","4:00 PM","CRO","OS",null,null,"C","Cromwell HS Soccer Field 2"],
+  ["10/15","3:45 PM","HK","MOR",null,null,"C","HKHS Press Box Field"],
+  ["10/15","6:30 PM","VAL","LOL",null,null,"C","Richard B. Blythe Turf"],
+  ["10/15","6:00 PM","NB","COG",null,null,"C","NBHS Colafati Field"],
+  ["10/15","5:00 PM","HR","WB",null,null,"C","Tom Nevers Field"],
+  ["10/16","6:00 PM","POR","EH",null,null,"C","Portland HS Varsity Field"],
+  ["10/22","4:00 PM","WB","LOL",null,null,"C","Westbrook HS Field #2"],
+
+  // ---- Upcoming: non-conference ----
+  ["9/30","3:45 PM","Middletown","HK",null,null,"N","Middletown HS Stadium"],
+  ["9/30","6:30 PM","Branford","VAL",null,null,"N","Branford HS Turf"],
+  ["9/30","6:30 PM","POR","Northwest Catholic",null,null,"N","Portland HS Varsity Field"],
+  ["10/1","6:00 PM","COG","Jonathan Law",null,null,"N","Wally Camp Complex"],
+  ["10/3","3:00 PM","Joel Barlow","CRO",null,null,"N","Joel Barlow HS Field J1"],
+  ["10/3","1:00 PM","OS","Canton",null,null,"N","Old Saybrook HS Turf"],
+  ["10/3","11:00 AM","LOL","East Lyme",null,null,"N","Lyme-Old Lyme HS Turf"],
+  ["10/10","11:00 AM","East Lyme","OS",null,null,"N","East Lyme HS Dick North Turf"],
+  ["10/10","12:00 PM","MOR","Waterford",null,null,"N","Indian River Complex"],
+  ["10/13","4:00 PM","LOL","Ledyard",null,null,"N","Lyme-Old Lyme HS Turf"],
+  ["10/14","3:45 PM","Bolton","CRO",null,null,"N","Bolton HS Varsity Field"],
+  ["10/17","10:00 AM","Waterford","HK",null,null,"N","Waterford HS Alumni Turf"],
+  ["10/17","11:00 AM","Bacon Academy","MOR",null,null,"N","Bacon Academy"],
+  ["10/17","11:00 AM","VAL","Plainfield",null,null,"N","Richard B. Blythe Turf"],
+  ["10/17","5:00 PM","NB","Lyman Hall",null,null,"N","NBHS Colafati Field"],
+  ["10/17","11:00 AM","WB","Wheeler",null,null,"N","Westbrook HS Field #2"],
+  ["10/19","4:00 PM","Norwich Tech","OS",null,null,"N","NTHS Outdoor Complex"],
+  ["10/19","6:00 PM","EH","COG",null,null,"N","East Hampton HS Main Field"],
+  ["10/19","6:00 PM","POR","Cheney Tech",null,null,"N","Portland HS Varsity Field"],
+  ["10/19","3:45 PM","Plainville","LOL",null,null,"N","Plainville HS Tinty Stadium"],
+  ["10/19","6:00 PM","HR","HMTCA",null,null,"N","Tom Nevers Field"],
+  ["10/19","6:00 PM","NB","Vinal Tech",null,null,"N","NBHS Colafati Field"],
+  ["10/19","4:00 PM","Amistad","WB",null,null,"N","Amistad HS"],
+  ["10/20","4:00 PM","WB","Grasso Tech",null,null,"N","Westbrook HS Field #2"],
+  ["10/21","6:00 PM","CRO","Wolcott",null,null,"N","Cromwell HS Main Field"],
+  ["10/21","3:45 PM","Manchester","HK",null,null,"N","Manchester HS Memorial Field"],
+  ["10/21","4:00 PM","VAL","Lyman Memorial",null,null,"N","Richard B. Blythe Turf"],
+  ["10/21","3:45 PM","East Granby","COG",null,null,"N","East Granby HS Lower Field"],
+  ["10/22","4:00 PM","Suffield","OS",null,null,"N","Suffield HS Ted Beneski Turf"],
+  ["10/22","6:30 PM","POR","Bolton",null,null,"N","Portland HS Varsity Field"],
+  ["10/22","4:00 PM","COG","Wilcox Tech",null,null,"N","Wally Camp Complex"],
+  ["10/22","3:30 PM","Platt Tech","NB",null,null,"N","Orange Ave Athletic Complex"],
+  ["10/23","6:00 PM","MOR","St. Paul Catholic",null,null,"N","Indian River Complex"],
+  ["10/23","6:30 PM","VAL","Amistad",null,null,"N","Richard B. Blythe Turf"],
+  ["10/27","3:30 PM","Comp Sci","HR",null,null,"N","Abbe Road Soccer Complex"]
+];
+
+// CIAC Class S tournament rankings, copied from ciac.fpsports.org on 9/30/2026 (morning).
+// Seeding uses "Points" (the new power ranking). Qualifying = winning pct .400 or better.
+const CIAC_SNAPSHOT = {
+  asOf: "2026-09-30",
+  note: "Cromwell 9, Hale Ray 0 (9/29) had not been entered yet",
+  rows: [
+    [1,"Cromwell","5-2-0",8.53,"CRO"],[2,"East Catholic","3-3-1",8.49],[3,"Morgan","5-1-2",8.46,"MOR"],
+    [4,"Somers","4-1-2",8.45],[5,"Northwestern","6-1-0",8.44],[6,"Immaculate","6-1-1",8.22],
+    [7,"East Hampton","5-1-2",8.21,"EH"],[8,"Old Saybrook","5-1-1",8.18,"OS"],[9,"Canton","3-2-2",8.17],
+    [10,"Northwest Catholic","3-2-1",8.12],[11,"Haddam-Killingworth","6-2-0",8.09,"HK"],
+    [12,"Shepaug Valley","6-1-0",8.09],[13,"Housatonic Regional","4-4-0",8.04],
+    [14,"Valley Regional","3-2-2",7.83,"VAL"],[15,"Holy Cross","4-1-2",7.56],[16,"Woodland","3-3-1",7.40],
+    [17,"St. Paul Catholic","4-2-2",7.34],[18,"Bolton","4-2-1",7.28],[19,"Portland","4-3-1",7.28,"POR"],
+    [20,"Wheeler","4-1-2",6.99],[21,"St. Bernard","2-3-0",6.85],[22,"Lyman Memorial","6-2-0",6.70],
+    [23,"Innovation","3-4-0",6.60],[24,"Aerospace","4-2-1",6.38],[25,"International","2-3-0",6.23],
+    [26,"Stonington","1-3-3",8.03],[27,"Lyme-Old Lyme","2-4-1",7.68,"LOL"],[28,"Thomaston","1-4-0",7.34],
+    [29,"Windsor Locks","2-5-0",7.29],[30,"Kolbe Cathedral","1-6-1",7.25],[31,"Terryville","1-4-1",7.22],
+    [32,"East Granby","2-4-1",6.99],[33,"Notre Dame Prep","0-5-2",6.95],[34,"Hale Ray","2-4-0",6.82,"HR"],
+    [35,"Oxford","2-5-0",6.75],[36,"Coginchaug","1-6-0",6.72,"COG"],[37,"East Windsor","2-5-0",6.66],
+    [38,"Gilbert","1-6-0",6.60],[39,"Bloomfield","0-6-0",6.52],[40,"North Branford","1-6-0",6.32,"NB"],
+    [41,"Westbrook","1-7-0",6.30,"WB"],[42,"Coventry","0-8-0",6.27],[43,"HMTCA","1-7-1",6.00],
+    [44,"Derby","0-6-1",5.65],[45,"ACES Chase Academy","0-7-0",5.57],[46,"Tourtellotte","2-5-0",5.43],
+    [47,"Classical Magnet","0-7-0",5.33],[48,"Putnam","0-8-0",4.94]
+  ]
+};
+
+// ===== ENGINE — pure calculations, no page code =====
+const TEAM_BY_ID = Object.fromEntries(TEAMS.map(t => [t.id, t]));
+const isShoreline = id => Object.prototype.hasOwnProperty.call(TEAM_BY_ID, id);
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+function toDate(md) { const [m, d] = md.split("/").map(Number); return new Date(SEASON_YEAR, m - 1, d); }
+function timeMinutes(t) {
+  const m = /(\d+):(\d+)\s*(AM|PM)/i.exec(t || ""); if (!m) return 0;
+  let h = +m[1] % 12; if (m[3].toUpperCase() === "PM") h += 12; return h * 60 + +m[2];
+}
+
+const ALL_GAMES = GAMES.map((r, i) => {
+  const [md, time, home, away, hs, as, kind, venue] = r;
+  const date = toDate(md);
+  return {
+    i, md, time, home, away, hs, as, kind, venue, date,
+    sort: date.getTime() + timeMinutes(time) * 60000,
+    played: hs !== null && as !== null,
+    conf: kind === "C",
+    intra: isShoreline(home) && isShoreline(away)
+  };
+}).sort((a, b) => a.sort - b.sort);
+
+function fmtDay(d) { return `${DAYS[d.getDay()]} ${d.getMonth() + 1}/${d.getDate()}`; }
+function fmtLong(d) { return `${DAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}`; }
+function oppName(id) { return isShoreline(id) ? TEAM_BY_ID[id].name : id; }
+
+// Result of game g from team's point of view
+function persp(g, team) {
+  const home = g.home === team;
+  const opp = home ? g.away : g.home;
+  if (!g.played) return { g, home, opp, played: false };
+  const gf = home ? g.hs : g.as, ga = home ? g.as : g.hs;
+  return { g, home, opp, played: true, gf, ga, res: gf > ga ? "W" : gf < ga ? "L" : "T", margin: gf - ga };
+}
+
+function gamesFor(team, scope) {
+  return ALL_GAMES.filter(g => (g.home === team || g.away === team) && (scope === "all" || g.conf));
+}
+
+function blankLine() { return { gp: 0, w: 0, l: 0, t: 0, gf: 0, ga: 0 }; }
+function addTo(line, p) {
+  line.gp++; line.gf += p.gf; line.ga += p.ga;
+  if (p.res === "W") line.w++; else if (p.res === "L") line.l++; else line.t++;
+}
+function pts(line) { return line.w * 3 + line.t; }
+function ppg(line) { return line.gp ? pts(line) / line.gp : 0; }
+function rec(line) { return `${line.w}-${line.l}-${line.t}`; }
+function ciacPct(line) { return line.gp ? (2 * line.w + line.t) / (2 * line.gp) : 0; }
+
+function teamStats(team, scope) {
+  const s = Object.assign(blankLine(), {
+    id: team, home: blankLine(), away: blankLine(), cs: 0, fts: 0,
+    marg: { W1: 0, W2: 0, W3: 0, T: 0, L1: 0, L2: 0, L3: 0 },
+    close: blankLine(), log: [], remaining: []
+  });
+  for (const g of gamesFor(team, scope)) {
+    const p = persp(g, team);
+    if (!p.played) { s.remaining.push(p); continue; }
+    addTo(s, p); addTo(p.home ? s.home : s.away, p);
+    if (p.ga === 0) s.cs++;
+    if (p.gf === 0) s.fts++;
+    const a = Math.min(Math.abs(p.margin), 3);
+    s.marg[p.res === "T" ? "T" : p.res + a]++;
+    if (Math.abs(p.margin) <= 1) addTo(s.close, p);
+    s.log.push(p);
+  }
+  s.pts = pts(s); s.gd = s.gf - s.ga;
+  s.form = s.log.slice(-5).map(p => p.res);
+  return s;
+}
+
+// ---- Shoreline standings with tiebreak: points, then head-to-head (exactly two tied),
+// then goal difference and goals for (league rules beyond H2H not confirmed yet)
+function h2hResult(a, b) {
+  const g = ALL_GAMES.find(x => x.conf && x.played &&
+    ((x.home === a && x.away === b) || (x.home === b && x.away === a)));
+  return g ? persp(g, a) : null;
+}
+
+function computeStandings() {
+  const rows = TEAMS.map(t => teamStats(t.id, "conf"));
+  rows.sort((x, y) => y.pts - x.pts || y.gd - x.gd || y.gf - x.gf || x.id.localeCompare(y.id));
+  // apply head-to-head inside groups of exactly two tied on points
+  const out = [];
+  for (let i = 0; i < rows.length;) {
+    let j = i; while (j < rows.length && rows[j].pts === rows[i].pts) j++;
+    const grp = rows.slice(i, j);
+    if (grp.length === 2) {
+      const r = h2hResult(grp[0].id, grp[1].id);
+      if (r && r.res === "L") grp.reverse();
+      grp.forEach(x => x.tiebreak = r && r.res !== "T" ? "H2H" : "GD");
+    } else if (grp.length > 2) grp.forEach(x => x.tiebreak = "GD");
+    out.push(...grp); i = j;
+  }
+  out.forEach((r, k) => r.rank = k + 1);
+  return out;
+}
+
+const STANDINGS = computeStandings();
+const RANK = Object.fromEntries(STANDINGS.map(r => [r.id, r.rank]));
+const HALF = Math.floor(TEAMS.length / 2);
+const TOP_HALF = new Set(STANDINGS.slice(0, HALF).map(r => r.id));
+const CONF_PPG = Object.fromEntries(STANDINGS.map(r => [r.id, ppg(r)]));
+
+STANDINGS.forEach(r => {
+  r.left = r.remaining.length;
+  r.maxPts = r.pts + 3 * r.left;
+  r.topLeft = r.remaining.filter(p => TOP_HALF.has(p.opp)).length;
+  r.sos = r.left ? r.remaining.reduce((s, p) => s + CONF_PPG[p.opp], 0) / r.left : 0;
+});
+const LEADER_PTS = STANDINGS[0].pts;
+STANDINGS.forEach(r => { r.titleAlive = r.maxPts >= LEADER_PTS; });
+
+// ---- Head-to-head matrix (conference games only)
+function h2hCell(a, b) {
+  if (a === b) return { self: true };
+  const g = ALL_GAMES.find(x => x.conf && ((x.home === a && x.away === b) || (x.home === b && x.away === a)));
+  if (!g) return { none: true };
+  return persp(g, a);
+}
+
+// ---- Power rating: least squares on goal margin capped at 3, all Shoreline-vs-Shoreline games
+const MODEL = (() => {
+  const ids = TEAMS.map(t => t.id), n = ids.length, idx = Object.fromEntries(ids.map((id, k) => [id, k]));
+  const games = ALL_GAMES.filter(g => g.intra && g.played);
+  const A = Array.from({ length: n }, () => Array(n).fill(1)); // +1 everywhere pins the sum of ratings to 0
+  const b = Array(n).fill(0);
+  const cap = m => Math.max(-3, Math.min(3, m));
+  for (const g of games) {
+    const h = idx[g.home], a = idx[g.away], m = cap(g.hs - g.as);
+    A[h][h]++; A[a][a]++; A[h][a]--; A[a][h]--; b[h] += m; b[a] -= m;
+  }
+  // Gaussian elimination
+  const M = A.map((row, k) => [...row, b[k]]);
+  for (let c = 0; c < n; c++) {
+    let p = c; for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+    [M[c], M[p]] = [M[p], M[c]];
+    for (let r = 0; r < n; r++) if (r !== c) {
+      const f = M[r][c] / M[c][c]; for (let k = c; k <= n; k++) M[r][k] -= f * M[c][k];
+    }
+  }
+  const r = M.map((row, k) => row[n] / row[k]);
+  const rating = Object.fromEntries(ids.map((id, k) => [id, r[k]]));
+  let sse = 0; for (const g of games) { const e = cap(g.hs - g.as) - (rating[g.home] - rating[g.away]); sse += e * e; }
+  const sigma = Math.max(0.8, Math.sqrt(sse / Math.max(1, games.length - (n - 1))));
+  return { rating, sigma, games: games.length };
+})();
+
+function Phi(x) { // standard normal CDF
+  const t = 1 / (1 + 0.2316419 * Math.abs(x));
+  const d = 0.3989423 * Math.exp(-x * x / 2);
+  const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+  return x > 0 ? 1 - p : p;
+}
+function matchProbs(home, away) {
+  const d = MODEL.rating[home] - MODEL.rating[away], s = MODEL.sigma;
+  const pH = Phi((d - 0.5) / s), pA = Phi((-d - 0.5) / s);
+  return { home: pH, away: pA, draw: Math.max(0, 1 - pH - pA), diff: d };
+}
+
+// ---- Season simulation of remaining conference games (fixed seed so numbers are stable)
+// Title = finish first or share first on points. Top 2 = the two first-round bye spots, so ties
+// are broken: points, then head-to-head points among the tied teams, then a coin flip
+// (the Shoreline's later tiebreakers are not confirmed yet).
+const SIM = (() => {
+  let seed = 20260930;
+  const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const left = ALL_GAMES.filter(g => g.conf && !g.played).map(g => ({ g, p: matchProbs(g.home, g.away) }));
+  const done = ALL_GAMES.filter(g => g.conf && g.played);
+  const base = Object.fromEntries(STANDINGS.map(r => [r.id, r.pts]));
+  const N = 20000, first = {}, top2 = {}, total = {}, pos = {};
+  TEAMS.forEach(t => { first[t.id] = 0; top2[t.id] = 0; total[t.id] = 0; pos[t.id] = Array(TEAMS.length).fill(0); });
+  for (let k = 0; k < N; k++) {
+    const p = { ...base }, results = []; // [home, away, homePts, awayPts]
+    for (const g of done) results.push([g.home, g.away, g.hs > g.as ? 3 : g.hs === g.as ? 1 : 0, g.hs < g.as ? 3 : g.hs === g.as ? 1 : 0]);
+    for (const { g, p: pr } of left) {
+      const u = rnd(); let hp, ap;
+      if (u < pr.home) { hp = 3; ap = 0; } else if (u < pr.home + pr.draw) { hp = 1; ap = 1; } else { hp = 0; ap = 3; }
+      p[g.home] += hp; p[g.away] += ap; results.push([g.home, g.away, hp, ap]);
+    }
+    const best = Math.max(...Object.values(p));
+    TEAMS.forEach(t => { if (p[t.id] === best) first[t.id]++; total[t.id] += p[t.id]; });
+    // full order with tiebreaks
+    const coin = Object.fromEntries(TEAMS.map(t => [t.id, rnd()]));
+    const ids = TEAMS.map(t => t.id).sort((a, b) => p[b] - p[a]);
+    const order = [];
+    for (let i = 0; i < ids.length;) {
+      let j = i; while (j < ids.length && p[ids[j]] === p[ids[i]]) j++;
+      const grp = ids.slice(i, j);
+      if (grp.length > 1) {
+        const inG = new Set(grp), h2h = Object.fromEntries(grp.map(id => [id, 0]));
+        for (const [h, a, hp, ap] of results) if (inG.has(h) && inG.has(a)) { h2h[h] += hp; h2h[a] += ap; }
+        grp.sort((a, b) => h2h[b] - h2h[a] || coin[b] - coin[a]);
+      }
+      order.push(...grp); i = j;
+    }
+    order.forEach((id, r) => { pos[id][r]++; if (r < 2) top2[id]++; });
+  }
+  const out = {};
+  TEAMS.forEach(t => out[t.id] = { first: first[t.id] / N, top2: top2[t.id] / N, avgPts: total[t.id] / N,
+    pos: pos[t.id].map(c => c / N) });
+  return { N, byTeam: out, left: left.length };
+})();
+
+// ---- CIAC state tournament qualification (all varsity games from 9/8 count)
+const CIAC = TEAMS.map(t => {
+  const s = teamStats(t.id, "all");
+  const left = s.remaining.length, gpFinal = s.gp + left;
+  // need (2W + T) / (2 * GP) >= .400 at season end; future games assumed win or lose
+  // points on the CIAC scale: 2 per win, 1 per tie; need 40% of 2 x final games
+  const short = Math.max(0, Math.ceil(0.8 * gpFinal - 1e-9) - (2 * s.w + s.t));
+  const needW = Math.ceil(short / 2); // wins needed if no more ties
+  let status;
+  if (gpFinal < 10) status = "short";
+  else if (short === 0) status = "clinched";
+  else if (short > 2 * left) status = "out";
+  else status = "alive";
+  const snap = CIAC_SNAPSHOT.rows.find(r => r[4] === t.id);
+  return { id: t.id, s, left, gpFinal, short, needW, status, pct: ciacPct(s),
+    snapRank: snap ? snap[0] : null, snapPts: snap ? snap[3] : null, snapRec: snap ? snap[2] : null };
+}).sort((a, b) => (a.snapRank || 99) - (b.snapRank || 99));
+
+// ---- Shoreline vs everyone else (feeds the league multiplier in the CIAC power ranking)
+const OUTSIDE = (() => {
+  const line = blankLine(), rows = [], byClass = {};
+  for (const g of ALL_GAMES) {
+    if (!g.played || g.intra) continue;
+    const team = isShoreline(g.home) ? g.home : g.away;
+    const p = persp(g, team);
+    addTo(line, p);
+    const c = OUTSIDE_CLASS[p.opp] || "?";
+    byClass[c] = byClass[c] || blankLine(); addTo(byClass[c], p);
+    rows.push({ team, p, cls: c });
+  }
+  const upcoming = ALL_GAMES.filter(g => !g.played && !g.intra).length;
+  return { line, rows, byClass, upcoming };
+})();
+
+// ---- League-wide margin distribution (conference games)
+const MARGINS = (() => {
+  const bins = [0, 0, 0, 0, 0, 0]; // 0,1,2,3,4,5+
+  let homeW = 0, awayW = 0, draws = 0, goals = 0, n = 0;
+  for (const g of ALL_GAMES) {
+    if (!g.conf || !g.played) continue;
+    const m = Math.abs(g.hs - g.as); bins[Math.min(m, 5)]++; n++; goals += g.hs + g.as;
+    if (g.hs > g.as) homeW++; else if (g.hs < g.as) awayW++; else draws++;
+  }
+  // games between two top-half teams vs the rest
+  const topGames = ALL_GAMES.filter(g => g.conf && g.played && TOP_HALF.has(g.home) && TOP_HALF.has(g.away));
+  const topAvg = topGames.length ? topGames.reduce((s, g) => s + Math.abs(g.hs - g.as), 0) / topGames.length : 0;
+  const mixed = ALL_GAMES.filter(g => g.conf && g.played && (TOP_HALF.has(g.home) !== TOP_HALF.has(g.away)));
+  const mixAvg = mixed.length ? mixed.reduce((s, g) => s + Math.abs(g.hs - g.as), 0) / mixed.length : 0;
+  return { bins, n, homeW, awayW, draws, goals, topN: topGames.length, topAvg, mixN: mixed.length, mixAvg };
+})();
+
+// Record split vs current top half / bottom half (conference)
+function splitRecord(team) {
+  const top = blankLine(), bot = blankLine();
+  for (const g of gamesFor(team, "conf")) {
+    const p = persp(g, team); if (!p.played) continue;
+    addTo(TOP_HALF.has(p.opp) ? top : bot, p);
+  }
+  return { top, bot };
+}
+
+// Common opponents between two teams (conference, played)
+function commonOpponents(a, b) {
+  const res = t => { const m = {}; for (const g of gamesFor(t, "conf")) { const p = persp(g, t); if (p.played) m[p.opp] = p; } return m; };
+  const ra = res(a), rb = res(b);
+  return Object.keys(ra).filter(o => rb[o] && o !== a && o !== b).map(o => ({ opp: o, a: ra[o], b: rb[o] }));
+}
+
+if (typeof module !== "undefined") module.exports = { ALL_GAMES, STANDINGS, TOP_HALF, MODEL, SIM, CIAC, OUTSIDE, MARGINS,
+  teamStats, splitRecord, commonOpponents, matchProbs, h2hCell, rec, ppg, ciacPct };
+
+// ===== RENDER =====
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const CRO = "CRO";
+const tname = id => isShoreline(id) ? TEAM_BY_ID[id].name : id;
+const pct = x => `${Math.round(x * 100)}%`;
+const pct1 = x => x > 0 && x < 0.005 ? "<1%" : x > 0.995 && x < 1 ? ">99%" : pct(x);
+const ord = n => n + (["th", "st", "nd", "rd"][(n % 100 - 20) % 10] || ["th", "st", "nd", "rd"][n % 100] || "th");
+const sign = n => (n > 0 ? "+" : n < 0 ? "−" : "") + Math.abs(n);
+const f1 = x => x.toFixed(1), f2 = x => x.toFixed(2);
+const resChip = r => `<span class="res ${r}">${r}</span>`;
+const isoDate = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+const RESULTS_THROUGH = isoDate(AS_OF.results), UPDATED = isoDate(AS_OF.updated);
+
+// ---------- Masthead
+$("mastMeta").innerHTML =
+  `<span>Results through ${fmtLong(RESULTS_THROUGH)}</span><span>Updated ${fmtLong(UPDATED)}, ${SEASON_YEAR}</span><span>12 teams · ${ALL_GAMES.filter(g => g.conf && g.played).length} of ${ALL_GAMES.filter(g => g.conf).length} league games played</span>`;
+
+// ---------- Cromwell
+(function renderCromwell() {
+  const row = STANDINGS.find(r => r.id === CRO);
+  const all = teamStats(CRO, "all");
+  const snap = CIAC.find(c => c.id === CRO);
+  const tiedWith = STANDINGS.filter(r => r.id !== CRO && r.pts === row.pts);
+  const leader = STANDINGS[0];
+  let stake;
+  if (row.rank === 1 && tiedWith.length === 1) {
+    const h = h2hResult(CRO, tiedWith[0].id);
+    stake = `Cromwell and ${tname(tiedWith[0].id)} are level on ${row.pts} points at the top.` +
+      (h && h.res === "W" ? ` Cromwell holds the head-to-head edge after beating them ${h.gf}-${h.ga} on ${h.g.md}.` : "");
+  } else if (row.rank === 1) {
+    stake = `Cromwell leads the Shoreline by ${row.pts - STANDINGS[1].pts} point${row.pts - STANDINGS[1].pts === 1 ? "" : "s"}.`;
+  } else {
+    stake = `Cromwell is ${ord(row.rank)}, ${leader.pts - row.pts} point${leader.pts - row.pts === 1 ? "" : "s"} behind ${tname(leader.id)}.`;
+  }
+  stake += ` ${row.topLeft} of Cromwell's ${row.left} remaining league games are against top-half teams, the toughest run-in in the league by opponents' points per game.`;
+  const toughest = [...STANDINGS].sort((a, b) => b.sos - a.sos)[0];
+  if (toughest.id !== CRO) stake = stake.replace(", the toughest run-in in the league by opponents' points per game", "");
+  const so = SIM.byTeam[CRO];
+  stake += ` Projection: ${pct1(so.first)} to win or share the title and ${pct1(so.top2)} to finish top 2 for a first-round bye.`;
+  $("croStake").textContent = stake;
+
+  const snapRank = snap && snap.snapRank;
+  $("croTiles").innerHTML = [
+    ["Shoreline", ord(row.rank), `${row.pts} pts · ${rec(row)} in the league`],
+    ["CIAC Class S", snapRank ? `#${snapRank}` : "—", `Power ranking as of ${CIAC_SNAPSHOT.asOf.slice(5).replace("-", "/")}`],
+    ["Goals allowed", row.ga, `in ${row.gp} league games · ${row.cs} shutouts`],
+    ["Overall", rec(all), `Win pct ${all.gp ? ciacPct(all).toFixed(3).replace(/^0/, "") : "—"} for the state tourney`]
+  ].map(([k, v, d]) => `<div class="tile"><span class="k">${k}</span><span class="v num">${v}</span><span class="d">${d}</span></div>`).join("");
+
+  // Next game
+  const next = all.remaining[0];
+  if (next) {
+    const g = next.g, oppRow = STANDINGS.find(r => r.id === next.opp);
+    let probHtml = "", commonHtml = "";
+    if (g.intra) {
+      const pr = matchProbs(g.home, g.away);
+      const win = next.home ? pr.home : pr.away, loss = next.home ? pr.away : pr.home;
+      probHtml = `<div class="prob"><div class="small muted">Projection (for fun)</div>
+        <div class="bar3" role="img" aria-label="Cromwell win ${pct(win)}, tie ${pct(pr.draw)}, loss ${pct(loss)}">
+          <span style="width:${win * 100}%;background:var(--w2)"></span><span style="width:${pr.draw * 100}%;background:var(--tie)"></span><span style="width:${loss * 100}%;background:var(--l2)"></span></div>
+        <div class="legend3"><span>Win ${pct1(win)}</span><span>Tie ${pct1(pr.draw)}</span><span>Loss ${pct1(loss)}</span></div></div>`;
+      const common = commonOpponents(CRO, next.opp);
+      if (common.length) commonHtml = `<div class="small"><div class="muted" style="margin-bottom:4px">Common opponents</div>` +
+        common.map(c => `<div>${tname(c.opp)}: Cromwell ${resChip(c.a.res)} ${c.a.gf}-${c.a.ga}, ${TEAM_BY_ID[next.opp].abbr} ${resChip(c.b.res)} ${c.b.gf}-${c.b.ga}</div>`).join("") + `</div>`;
+    }
+    const oppLine = oppRow ? `${ord(oppRow.rank)} in the Shoreline · ${rec(oppRow)} · ${oppRow.gf}-${oppRow.ga} goals` :
+      `Non-conference${OUTSIDE_CLASS[next.opp] ? ` · Class ${OUTSIDE_CLASS[next.opp]}` : ""}`;
+    $("croNext").innerHTML = `
+      <div style="display:grid;gap:8px;align-content:start">
+        <div class="small muted" style="text-transform:uppercase;letter-spacing:.1em;font-weight:600">Next game</div>
+        <div class="when">${fmtLong(g.date)} · ${g.time}</div>
+        <div class="opp">${next.home ? "vs" : "at"} ${esc(tname(next.opp))} ${g.conf ? '<span class="chip">Shoreline</span>' : '<span class="chip">Non-conference</span>'}</div>
+        <dl><dt>Where</dt><dd>${esc(g.venue)}</dd><dt>Opponent</dt><dd>${oppLine}</dd></dl>
+      </div>
+      <div style="display:grid;gap:12px;align-content:start">${probHtml}${commonHtml}</div>`;
+  }
+
+  // Still to play
+  $("croLeft").innerHTML = `<thead><tr><th class="l">When</th><th class="l">Opponent</th><th title="Projected chance Cromwell wins (conference games only)">Win %</th></tr></thead><tbody>` +
+    all.remaining.map(p => {
+      const g = p.g, top = g.conf && TOP_HALF.has(p.opp);
+      let ch = "—";
+      if (g.intra && g.conf) { const pr = matchProbs(g.home, g.away); ch = pct1(p.home ? pr.home : pr.away); }
+      return `<tr><td class="l">${fmtDay(g.date)}<div class="small muted">${g.time}</div></td><td class="l wrap-cell">${p.home ? "vs" : "at"} ${esc(tname(p.opp))} ${g.conf ? (top ? '<span class="chip big">Top 6</span>' : "") : '<span class="chip">Non-conf</span>'}</td><td>${ch}</td></tr>`;
+    }).join("") + `</tbody>`;
+
+  $("croDone").innerHTML = `<thead><tr><th class="l">Date</th><th class="l">Opponent</th><th>Score</th><th class="l">&nbsp;</th></tr></thead><tbody>` +
+    [...all.log].reverse().map(p => `<tr><td class="l">${fmtDay(p.g.date)}</td><td class="l wrap-cell">${p.home ? "vs" : "at"} ${esc(tname(p.opp))}${p.g.conf ? "" : ' <span class="chip">Non-conf</span>'}</td><td>${p.gf}-${p.ga}</td><td class="l">${resChip(p.res)}</td></tr>`).join("") + `</tbody>`;
+})();
+
+// ---------- Standings
+(function renderStandings() {
+  const head = `<thead><tr><th class="l sticky-col">#&nbsp;&nbsp;Team</th><th>GP</th><th>W-L-T</th><th>Pts</th><th>GF</th><th>GA</th><th>GD</th><th class="l">Last 5</th><th>Left</th><th title="Remaining games against current top-6 teams">Top-6 left</th><th title="Average points per game of remaining opponents">Opp PPG</th><th>Max</th><th title="Chance to win or share the regular-season title, from the projection">Title</th><th title="Chance to finish 1st or 2nd after tiebreakers, which earns a first-round bye">Top 2</th></tr></thead>`;
+  const body = STANDINGS.map((r, k) => {
+    const cls = [r.id === CRO ? "cro" : "", k === HALF - 1 ? "cut" : ""].join(" ");
+    return `<tr class="${cls}"><td class="l team sticky-col">${r.rank}&nbsp;&nbsp;${esc(tname(r.id))}</td><td>${r.gp}</td><td>${rec(r)}</td><td class="pts">${r.pts}</td><td>${r.gf}</td><td>${r.ga}</td><td>${sign(r.gd)}</td>
+      <td class="l"><span class="form">${r.form.map(resChip).join("")}</span></td><td>${r.left}</td><td>${r.topLeft}</td><td>${f2(r.sos)}</td><td>${r.maxPts}</td><td>${pct1(SIM.byTeam[r.id].first)}</td><td>${pct1(SIM.byTeam[r.id].top2)}</td></tr>`;
+  }).join("");
+  $("standings").innerHTML = head + `<tbody>${body}</tbody>`;
+
+  const notes = [];
+  for (let i = 0; i < STANDINGS.length;) {
+    let j = i; while (j < STANDINGS.length && STANDINGS[j].pts === STANDINGS[i].pts) j++;
+    const grp = STANDINGS.slice(i, j);
+    if (grp.length > 1) {
+      const names = grp.map(r => tname(r.id)).join(grp.length === 2 ? " and " : ", ");
+      notes.push(grp[0].tiebreak === "H2H" ? `${names} are ordered by head-to-head result.` : `${names} are ordered by goal difference.`);
+    }
+    i = j;
+  }
+  $("tbNote").textContent = `Ties on points: ${notes.join(" ")} Head-to-head is the first tiebreaker; the Shoreline's rules beyond that are not confirmed yet, so goal difference then goals scored are used as placeholders. "Left" is conference games remaining, "Top-6 left" how many of those are against the current top 6, and "Opp PPG" the average points per game of those remaining opponents. "Max" is the most points still possible. "Title" counts a shared title, so that column can add up to more than 100%. "Top 2" is the chance of finishing first or second after tiebreakers, which earns a first-round bye in the Shoreline tournament; it always adds up to 200%.`;
+
+  // Title and bye odds, two bars per team
+  const odds = STANDINGS.map(r => ({ id: r.id, ...SIM.byTeam[r.id] })).filter(o => o.top2 >= 0.001).sort((a, b) => b.top2 - a.top2 || b.first - a.first);
+  $("titleOdds").innerHTML = `<div class="legend" style="margin-bottom:4px"><span><i style="background:var(--bar)"></i>Win or share the title</span><span><i style="background:var(--w1);outline:1px solid var(--w2);outline-offset:-1px"></i>Top 2 (first-round bye)</span></div>` +
+    odds.map(o => `<div class="pair ${o.id === CRO ? "cro" : ""}" data-tip="${esc(tname(o.id))}: wins or shares the title in ${pct1(o.first)} of simulations and finishes top 2 in ${pct1(o.top2)}. Outright #1 after tiebreakers: ${pct1(o.pos[0])}. Average final total ${f1(o.avgPts)} points.">
+      <span class="nm">${esc(tname(o.id))}</span>
+      <span class="bars"><span class="b1" style="width:${o.first * 100}%"></span><span class="b2" style="width:${o.top2 * 100}%"></span></span>
+      <span class="val"><b>${pct1(o.first)}</b><span>${pct1(o.top2)}</span></span></div>`).join("") +
+    `<p class="small muted" style="margin-top:8px">Other teams finish top 2 in fewer than 1 in 1,000 simulations. For the bye, ties on points are broken by head-to-head points among the tied teams, then a coin flip until the Shoreline's other tiebreakers are confirmed.</p>`;
+})();
+
+// Chart width follows the card so text stays at its real size on phones and desktops
+const chartW = id => Math.max(300, Math.round($(id).clientWidth || 560));
+
+function drawRating() {
+  const items = STANDINGS.map(r => ({ id: r.id, v: MODEL.rating[r.id] })).sort((a, b) => b.v - a.v);
+  const W = chartW("ratingChart"), narrow = W < 460;
+  const rowH = 26, padL = narrow ? 46 : 150, padR = 44, top = 6, H = top + items.length * rowH + 24;
+  const lim = Math.ceil(Math.max(1, ...items.map(i => Math.abs(i.v))));
+  const x = v => padL + (v + lim) / (2 * lim) * (W - padL - padR);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Power rating by team">`;
+  for (let t = -lim; t <= lim; t++) svg += `<line class="grid" x1="${x(t)}" x2="${x(t)}" y1="${top}" y2="${H - 22}"/><text class="axis-label" x="${x(t)}" y="${H - 6}" text-anchor="middle">${t > 0 ? "+" + t : t < 0 ? "−" + -t : 0}</text>`;
+  svg += `<line x1="${x(0)}" x2="${x(0)}" y1="${top - 2}" y2="${H - 20}" stroke="var(--line-strong)" stroke-width="1.5"/>`;
+  items.forEach((it, k) => {
+    const y = top + k * rowH, x0 = x(0), x1 = x(it.v), cro = it.id === CRO;
+    const fill = cro ? "var(--cro-mark)" : it.v >= 0 ? "var(--bar)" : "var(--bar-muted)";
+    const label = narrow ? TEAM_BY_ID[it.id].abbr : tname(it.id);
+    svg += `<text x="${padL - 10}" y="${y + 17}" text-anchor="end" class="${cro ? "dlabel" : ""}" style="${cro ? "fill:var(--cro-ink)" : ""}">${esc(label)}</text>`;
+    svg += `<rect x="${Math.min(x0, x1)}" y="${y + 6}" width="${Math.max(1, Math.abs(x1 - x0))}" height="${rowH - 12}" rx="3" fill="${fill}"/>`;
+    svg += `<text x="${it.v >= 0 ? x1 + 6 : x0 + 6}" y="${y + 17}" text-anchor="start" class="num">${it.v >= 0 ? "+" : "−"}${Math.abs(it.v).toFixed(1)}</text>`;
+    svg += `<rect class="hit" x="0" y="${y}" width="${W}" height="${rowH}" data-tip="${esc(tname(it.id))}: ${Math.abs(it.v).toFixed(2)} goals per game ${it.v >= 0 ? "better" : "worse"} than an average Shoreline team"/>`;
+  });
+  $("ratingChart").innerHTML = svg + `</svg>`;
+}
+drawRating();
+
+// ---------- Head-to-head grid
+(function renderGrid() {
+  const ids = STANDINGS.map(r => r.id);
+  let html = `<thead><tr><th class="rowh"></th>${ids.map(id => `<th class="colh ${id === CRO ? "cro" : ""}" title="${esc(tname(id))}">${TEAM_BY_ID[id].abbr}</th>`).join("")}</tr></thead><tbody>`;
+  for (const a of ids) {
+    html += `<tr class="${a === CRO ? "croRow" : ""}"><th class="rowh ${a === CRO ? "cro" : ""}" scope="row"><span class="full">${esc(tname(a))}</span><span class="abbr">${TEAM_BY_ID[a].abbr}</span></th>`;
+    for (const b of ids) {
+      const c = h2hCell(a, b);
+      if (c.self) { html += `<td class="cell self" aria-hidden="true"></td>`; continue; }
+      if (c.none) { html += `<td class="cell up">—</td>`; continue; }
+      const g = c.g, where = g.venue;
+      if (!c.played) {
+        html += `<td class="cell up" data-tip="${esc(tname(a))} ${c.home ? "vs" : "at"} ${esc(tname(b))} · ${fmtDay(g.date)} ${g.time} · ${esc(where)}">${g.md}</td>`;
+      } else {
+        const big = Math.abs(c.margin) >= 3 ? c.res + "3" : "";
+        html += `<td class="cell ${c.res} ${big}" data-tip="${esc(tname(a))} ${c.gf}, ${esc(tname(b))} ${c.ga} · ${fmtDay(g.date)} · ${esc(where)}">${c.gf}-${c.ga}</td>`;
+      }
+    }
+    html += `</tr>`;
+  }
+  $("h2h").innerHTML = html + `</tbody>`;
+})();
+
+// ---------- State tournament
+(function renderState() {
+  const status = c => {
+    if (c.status === "clinched") return `<span class="chip good">✓ Qualified</span>`;
+    if (c.status === "out") return `<span class="chip bad">✕ Can't reach .400</span>`;
+    if (c.status === "short") return `<span class="chip warn">Fewer than 10 games</span>`;
+    const tone = c.needW <= c.left / 3 ? "good" : c.needW <= (2 * c.left) / 3 ? "warn" : "bad";
+    const txt = c.short === 1 ? `Needs 1 win or tie of ${c.left}` : `Needs ${c.needW} more win${c.needW === 1 ? "" : "s"} of ${c.left}`;
+    return `<span class="chip ${tone}">${txt}</span>`;
+  };
+  $("ciac").innerHTML = `<thead><tr><th class="l sticky-col">Team</th><th>Class S rank</th><th>Power pts</th><th>Record</th><th>Win pct</th><th>Games left</th><th class="l">To qualify</th></tr></thead><tbody>` +
+    CIAC.map(c => `<tr class="${c.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${esc(tname(c.id))}</td><td>${c.snapRank ? "#" + c.snapRank : "—"}</td><td>${c.snapPts ? c.snapPts.toFixed(2) : "—"}</td><td>${rec(c.s)}</td><td>${c.pct.toFixed(3).replace(/^0/, "")}</td><td>${c.left}</td><td class="l">${status(c)}</td></tr>`).join("") + `</tbody>`;
+  const stale = CIAC.filter(c => c.snapRec && c.snapRec !== rec(c.s)).map(c => tname(c.id));
+  $("ciacNote").textContent = `Record, win pct and "to qualify" are calculated from the scores on this page. Class S rank and power points are copied from the CIAC tournament rankings page on ${fmtLong(isoDate(CIAC_SNAPSHOT.asOf))}` +
+    (stale.length ? `; that snapshot does not yet include every result for ${stale.join(" and ")}.` : ".") +
+    ` "To qualify" compares each team's (2 × wins + ties) with 40% of 2 × its final number of games, using the schedule as listed. A tie counts as half a win, so a team that is one point short can get there with either a win or a tie.`;
+
+  // Shoreline vs everyone
+  const O = OUTSIDE, cls = ["S", "M", "L", "LL"].filter(c => O.byClass[c]);
+  $("outsideFacts").innerHTML = `<div class="fact"><b class="num">${rec(O.line)}</b><span>Overall · ${O.line.gf}-${O.line.ga} goals</span></div>` +
+    cls.map(c => `<div class="fact"><b class="num">${rec(O.byClass[c])}</b><span>vs Class ${c} teams</span></div>`).join("");
+  $("outsideList").innerHTML = `<thead><tr><th class="l">Date</th><th class="l">Shoreline team</th><th class="l">Opponent</th><th>Score</th><th class="l">&nbsp;</th></tr></thead><tbody>` +
+    O.rows.map(r => `<tr class="${r.team === CRO ? "cro" : ""}"><td class="l">${fmtDay(r.p.g.date)}</td><td class="l">${esc(tname(r.team))}</td><td class="l">${r.p.home ? "vs" : "at"} ${esc(r.p.opp)} <span class="muted small">(${r.cls})</span></td><td>${r.p.gf}-${r.p.ga}</td><td class="l">${resChip(r.p.res)}</td></tr>`).join("") + `</tbody>`;
+
+  $("classSNote").textContent = `Copied from the CIAC site on ${fmtLong(isoDate(CIAC_SNAPSHOT.asOf))}. Teams at .400 or better are listed first, ordered by power points. Shoreline teams are in bold.`;
+  const row = r => `<tr class="${r[4] === CRO ? "cro" : ""}"><td class="l">${r[0]}</td><td class="l" style="${r[4] ? "font-weight:700" : ""}">${esc(r[1])}</td><td>${r[2]}</td><td>${r[3].toFixed(2)}</td></tr>`;
+  const hd = `<thead><tr><th class="l">#</th><th class="l">School</th><th>Record</th><th>Power pts</th></tr></thead>`;
+  $("classS").innerHTML = hd + `<tbody>${CIAC_SNAPSHOT.rows.filter(r => r[0] <= 25).map(row).join("")}</tbody>`;
+  $("classS2").innerHTML = hd + `<tbody>${CIAC_SNAPSHOT.rows.filter(r => r[0] > 25).map(row).join("")}</tbody>`;
+})();
+
+// ---------- Stats (depends on scope)
+let SCOPE = "conf";
+try { const s = localStorage.getItem("shoreline-scope"); if (s === "all" || s === "conf") SCOPE = s; } catch (e) {}
+
+function renderStats() {
+  $("scopeConf").setAttribute("aria-pressed", SCOPE === "conf");
+  $("scopeAll").setAttribute("aria-pressed", SCOPE === "all");
+  const order = STANDINGS.map(r => r.id);
+  const S = order.map(id => teamStats(id, SCOPE));
+  const scopeWord = SCOPE === "conf" ? "Shoreline games" : "all games";
+
+  // Scatter
+  (function scatter() {
+    const W = chartW("scatter"), H = 420, L = 44, R = 16, T = 30, B = 44;
+    const pts = S.map(s => ({ id: s.id, x: s.gp ? s.gf / s.gp : 0, y: s.gp ? s.ga / s.gp : 0, s }));
+    const xMax = Math.ceil(Math.max(...pts.map(p => p.x)) + 0.3), yMax = Math.ceil(Math.max(...pts.map(p => p.y)) + 0.3);
+    const sx = v => L + v / xMax * (W - L - R), sy = v => T + v / yMax * (H - T - B); // y: 0 allowed at top
+    const totGF = S.reduce((a, s) => a + s.gf, 0), totGP = S.reduce((a, s) => a + s.gp, 0);
+    const totGA = S.reduce((a, s) => a + s.ga, 0);
+    const ax = totGF / totGP, ay = totGA / totGP;
+    let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Goals scored per game versus goals allowed per game, ${scopeWord}">`;
+    for (let v = 0; v <= xMax; v++) svg += `<line class="grid" x1="${sx(v)}" x2="${sx(v)}" y1="${T}" y2="${H - B}"/><text class="axis-label" x="${sx(v)}" y="${H - B + 16}" text-anchor="middle">${v}</text>`;
+    for (let v = 0; v <= yMax; v++) svg += `<line class="grid" x1="${L}" x2="${W - R}" y1="${sy(v)}" y2="${sy(v)}"/><text class="axis-label" x="${L - 8}" y="${sy(v) + 4}" text-anchor="end">${v}</text>`;
+    svg += `<line class="avg" x1="${sx(ax)}" x2="${sx(ax)}" y1="${T}" y2="${H - B}"/><line class="avg" x1="${L}" x2="${W - R}" y1="${sy(ay)}" y2="${sy(ay)}"/>`;
+    svg += `<text class="axis-label" x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle">Goals scored per game →</text>`;
+    svg += `<text class="axis-label" transform="translate(14 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle">← Goals allowed per game</text>`;
+    svg += `<text class="quad" x="${W - R}" y="${T - 12}" text-anchor="end">Scores a lot, allows little</text>`;
+    if (W >= 460) svg += `<text class="quad" x="${L + 2}" y="${T - 12}">Defends well</text>`;
+    // labels with simple collision avoidance
+    const placed = [];
+    const sorted = [...pts].sort((a, b) => sy(a.y) - sy(b.y));
+    let labels = "", dots = "";
+    for (const p of sorted) {
+      const cx = sx(p.x), cy = sy(p.y), right = cx < W - R - 70;
+      let lx = right ? cx + 11 : cx - 11, ly = cy + 4;
+      for (let k = 0; k < 8; k++) {
+        const clash = placed.find(q => Math.abs(q.y - ly) < 13 && Math.abs(q.x - lx) < 46 && q.right === right);
+        if (!clash) break; ly = clash.y + 13;
+      }
+      placed.push({ x: lx, y: ly, right });
+      const cro = p.id === CRO;
+      dots += `<circle class="dot ${cro ? "cro" : ""}" cx="${cx}" cy="${cy}" r="${cro ? 8 : 6}"/>`;
+      labels += `<text class="dlabel" x="${lx}" y="${ly}" text-anchor="${right ? "start" : "end"}">${TEAM_BY_ID[p.id].abbr}</text>`;
+      labels += `<circle class="hit" cx="${cx}" cy="${cy}" r="16" data-tip="${esc(tname(p.id))}: ${f2(p.x)} scored, ${f2(p.y)} allowed per game (${p.s.gf}-${p.s.ga} in ${p.s.gp} ${scopeWord})"/>`;
+    }
+    $("scatter").innerHTML = svg + dots + labels + `</svg><p class="small muted" style="margin-top:6px">League average ${f2(ax)} goals per team per game. Hover or tap a dot for the numbers.</p>`;
+  })();
+
+  // Rankings
+  const bars = (arr, val, fmtVal, tip) => {
+    const mx = Math.max(...arr.map(val), 0.01);
+    return arr.map(s => `<div class="hbar ${s.id === CRO ? "cro" : ""}" data-tip="${esc(tip(s))}"><span class="nm">${esc(tname(s.id))}</span><span class="track"><span class="fill" style="width:${val(s) / mx * 100}%"></span></span><span class="val">${fmtVal(s)}</span></div>`).join("");
+  };
+  const gpg = s => s.gp ? s.gf / s.gp : 0, apg = s => s.gp ? s.ga / s.gp : 0;
+  const byGF = [...S].sort((a, b) => gpg(b) - gpg(a) || b.gf - a.gf);
+  const byGA = [...S].sort((a, b) => apg(a) - apg(b) || b.cs - a.cs);
+  $("rankGF").innerHTML = `<p class="small muted" style="margin:6px 0 10px">Total goals, bar = per game</p>` +
+    bars(byGF, gpg, s => `<b>${s.gf}</b> <span class="muted">${f1(gpg(s))}</span>`, s => `${tname(s.id)}: ${s.gf} goals in ${s.gp} games (${f2(gpg(s))} per game)`);
+  $("rankGA").innerHTML = `<p class="small muted" style="margin:6px 0 10px">Total allowed, bar = per game · shutouts in brackets</p>` +
+    bars(byGA, apg, s => `<b>${s.ga}</b> <span class="muted">(${s.cs})</span>`, s => `${tname(s.id)}: ${s.ga} allowed in ${s.gp} games (${f2(apg(s))} per game), ${s.cs} shutout${s.cs === 1 ? "" : "s"}`);
+
+  // Diverging margin rows
+  (function marginRows() {
+    const ext = S.map(s => ({ l: s.l + s.t / 2, r: s.w + s.t / 2 }));
+    const half = Math.max(...ext.map(e => Math.max(e.l, e.r)), 1);
+    const u = 50 / half; // percent per game on each side
+    $("marginRows").innerHTML = S.map(s => {
+      const m = s.marg; let segs = "";
+      let pos = 50 - (s.l + s.t / 2) * u;
+      const add = (key, n, lab) => { if (!n) return; const w = n * u;
+        segs += `<span class="seg ${key}" style="left:${pos}%;width:${w}%" data-tip="${esc(tname(s.id))}: ${n} ${lab}">${w > 4 ? n : ""}</span>`; pos += w; };
+      add("L3", m.L3, `loss${m.L3 === 1 ? "" : "es"} by 3 or more`);
+      add("L2", m.L2, `loss${m.L2 === 1 ? "" : "es"} by 2`);
+      add("L1", m.L1, `loss${m.L1 === 1 ? "" : "es"} by 1`);
+      add("T", m.T, `tie${m.T === 1 ? "" : "s"}`);
+      add("W1", m.W1, `win${m.W1 === 1 ? "" : "s"} by 1`);
+      add("W2", m.W2, `win${m.W2 === 1 ? "" : "s"} by 2`);
+      add("W3", m.W3, `win${m.W3 === 1 ? "" : "s"} by 3 or more`);
+      return `<div class="div-row ${s.id === CRO ? "cro" : ""}"><span class="nm">${esc(tname(s.id))}</span><div class="div-track"><span class="axis" style="left:50%"></span>${segs}</div></div>`;
+    }).join("");
+  })();
+
+  // Home/away
+  const haRows = S.map(s => {
+    const h = s.home, a = s.away, d = ppg(h) - ppg(a);
+    return `<tr class="${s.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${esc(tname(s.id))}</td><td>${rec(h)}</td><td>${h.gp ? f2(ppg(h)) : "—"}</td><td>${h.gf}-${h.ga}</td><td>${rec(a)}</td><td>${a.gp ? f2(ppg(a)) : "—"}</td><td>${a.gf}-${a.ga}</td><td>${h.gp && a.gp ? (d > 0 ? "+" : d < 0 ? "−" : "") + Math.abs(d).toFixed(2) : "—"}</td></tr>`;
+  }).join("");
+  $("homeAway").innerHTML = `<thead><tr><th class="l sticky-col">Team</th><th>Home</th><th>Pts/game</th><th>Goals</th><th>Away</th><th>Pts/game</th><th>Goals</th><th title="Home points per game minus away points per game">Home edge</th></tr></thead><tbody>${haRows}</tbody>`;
+  const hw = S.reduce((a, s) => a + s.home.w, 0), hl = S.reduce((a, s) => a + s.home.l, 0), ht = S.reduce((a, s) => a + s.home.t, 0);
+  $("haNote").textContent = `${SCOPE === "conf" ? "Conference" : "All"} games, points per game on a 3-1-0 scale. Home teams across the league are ${hw}-${hl}-${ht} in these games${SCOPE === "all" ? " (counting only the Shoreline side)" : ""}. Home edge is home points per game minus away points per game.`;
+}
+
+// Static margin section (conference only)
+function drawHist() {
+  const M = MARGINS, labels = ["Tie", "1", "2", "3", "4", "5+"];
+  const W = chartW("marginHist"), H = 240, L = 34, R = 10, T = 22, B = 40;
+  const mx = Math.max(...M.bins, 1), top = Math.ceil(mx / 2) * 2;
+  const bw = (W - L - R) / labels.length;
+  const sy = v => H - B - v / top * (H - T - B);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Conference games by goal margin">`;
+  for (let v = 0; v <= top; v += 2) svg += `<line class="grid" x1="${L}" x2="${W - R}" y1="${sy(v)}" y2="${sy(v)}"/><text class="axis-label" x="${L - 6}" y="${sy(v) + 4}" text-anchor="end">${v}</text>`;
+  M.bins.forEach((n, k) => {
+    const w = Math.min(bw - 12, 72), x = L + k * bw + (bw - w) / 2, y = sy(n), fill = k === 0 ? "var(--tie)" : k >= 3 ? "var(--w3)" : "var(--w2)";
+    if (n) svg += `<path d="M${x} ${H - B} V${y + 4} a4 4 0 0 1 4 -4 H${x + w - 4} a4 4 0 0 1 4 4 V${H - B} Z" fill="${fill}"/>`;
+    svg += `<text x="${x + w / 2}" y="${y - 6}" text-anchor="middle" class="num" style="font-weight:600;fill:var(--ink)">${n}</text>`;
+    svg += `<text class="axis-label" x="${x + w / 2}" y="${H - B + 16}" text-anchor="middle">${labels[k]}</text>`;
+    svg += `<rect class="hit" x="${x - 4}" y="${T}" width="${w + 8}" height="${H - B - T}" data-tip="${n} conference game${n === 1 ? "" : "s"} ${k === 0 ? "ended in a tie" : `decided by ${labels[k]} goal${k === 1 ? "" : "s"}`}"/>`;
+  });
+  svg += `<line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="var(--line-strong)"/>`;
+  svg += `<text class="axis-label" x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle">Final goal margin</text>`;
+  $("marginHist").innerHTML = svg + `</svg>`;
+}
+drawHist();
+
+(function renderMarginFacts() {
+  const M = MARGINS;
+
+  const five = M.bins[5], close = M.bins[0] + M.bins[1];
+  $("marginFacts").innerHTML = [
+    [`${five} of ${M.n}`, "league games were decided by 5 goals or more"],
+    [`${close} of ${M.n}`, "were tied or decided by a single goal"],
+    [M.topAvg.toFixed(1), `average margin when two top-half teams meet (${M.topN} games)`],
+    [M.mixAvg.toFixed(1), `average margin when a top-half team plays a bottom-half team (${M.mixN} games)`],
+    [`${M.homeW}-${M.awayW}-${M.draws}`, "home team record in league games, so no clear home-field edge so far"],
+    [(M.goals / M.n).toFixed(1), "goals per league game"]
+  ].map(([b, s]) => `<div class="fact"><b class="num">${b}</b><span>${s}</span></div>`).join("");
+
+  // Splits table
+  $("splits").innerHTML = `<thead><tr><th class="l sticky-col">Team</th><th>vs Top 6</th><th>Goals vs Top 6</th><th>vs Bottom 6</th><th>Goals vs Bottom 6</th><th title="Games tied or decided by one goal">1-goal games &amp; ties</th></tr></thead><tbody>` +
+    STANDINGS.map(r => {
+      const sp = splitRecord(r.id), c = teamStats(r.id, "conf").close;
+      const gd = sp.top.gf - sp.top.ga;
+      return `<tr class="${r.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${esc(tname(r.id))}</td><td>${sp.top.gp ? rec(sp.top) : "—"}</td><td>${sp.top.gp ? `${sp.top.gf}-${sp.top.ga} (${sign(gd)})` : "—"}</td><td>${sp.bot.gp ? rec(sp.bot) : "—"}</td><td>${sp.bot.gp ? `${sp.bot.gf}-${sp.bot.ga}` : "—"}</td><td>${c.gp ? rec(c) : "—"}</td></tr>`;
+    }).join("") + `</tbody>`;
+})();
+
+$("scopeConf").addEventListener("click", () => { SCOPE = "conf"; try { localStorage.setItem("shoreline-scope", SCOPE); } catch (e) {} renderStats(); });
+$("scopeAll").addEventListener("click", () => { SCOPE = "all"; try { localStorage.setItem("shoreline-scope", SCOPE); } catch (e) {} renderStats(); });
+renderStats();
+
+// ---------- Schedule
+(function schedule() {
+  const sel = $("teamFilter");
+  sel.innerHTML = `<option value="">All Shoreline teams</option>` + TEAMS.map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join("");
+  try { const v = localStorage.getItem("shoreline-team"); if (v && isShoreline(v)) sel.value = v; } catch (e) {}
+  try { $("showNL").checked = localStorage.getItem("shoreline-nl") === "1"; } catch (e) {}
+  function draw() {
+    const team = sel.value, nl = $("showNL").checked;
+    try { localStorage.setItem("shoreline-team", team); localStorage.setItem("shoreline-nl", nl ? "1" : "0"); } catch (e) {}
+    const list = ALL_GAMES.filter(g => !g.played && (nl || g.conf) && (!team || g.home === team || g.away === team));
+    if (!list.length) { $("schedList").innerHTML = `<p class="muted">No games left for this selection.</p>`; return; }
+    const byDay = new Map();
+    for (const g of list) { const k = g.date.getTime(); if (!byDay.has(k)) byDay.set(k, []); byDay.get(k).push(g); }
+    let html = "";
+    for (const [k, games] of byDay) {
+      html += `<div class="day"><h4>${fmtLong(new Date(k))}</h4>`;
+      for (const g of games) {
+        const big = g.conf && TOP_HALF.has(g.home) && TOP_HALF.has(g.away);
+        const cro = g.home === CRO || g.away === CRO;
+        let proj = "";
+        if (g.conf) {
+          const p = matchProbs(g.home, g.away);
+          const fav = p.home >= p.away ? g.home : g.away, fp = Math.max(p.home, p.away);
+          proj = fp < 0.45 ? `Toss-up` : `${TEAM_BY_ID[fav].abbr} ${pct1(fp)}`;
+        }
+        html += `<div class="game ${cro ? "cro" : ""}"><span class="t">${g.time}</span>
+          <span class="m">${esc(tname(g.away))} <span class="at">at</span> ${esc(tname(g.home))}</span>
+          <span class="x">${proj}</span>
+          <span class="v"><span>${esc(g.venue)}</span>${g.conf ? "" : '<span class="chip">Non-conf</span>'}${big ? '<span class="chip big">Big game</span>' : ""}</span></div>`;
+      }
+      html += `</div>`;
+    }
+    $("schedList").innerHTML = html + `<p class="small muted" style="margin-top:10px">The right column shows the favorite's win chance in conference games. Also on every schedule: a postseason event at Valley Regional on Mon Nov 2, 6:30 PM.</p>`;
+  }
+  sel.addEventListener("change", draw); $("showNL").addEventListener("change", draw); draw();
+})();
+
+// ---------- Footer
+$("foot").innerHTML = `
+  <p><b>How this page counts games.</b> Conference games are games between two of the 12 Shoreline teams that are not marked non-league on the CIAC schedule. Games before the Sept 8 opener (scrimmages, jamboree) are left out. Non-league games, including repeat meetings between Shoreline teams, count only toward the state tournament and the "All games" stats.</p>
+  <p><b>Sources.</b> Scores and schedules from each team's page on ciac.fpsports.org. Qualifying and seeding rules from the CIAC 2026 Boys Soccer Information Packet. Class S rankings copied from the CIAC tournament rankings page on ${fmtLong(isoDate(CIAC_SNAPSHOT.asOf))}.</p>
+  <p><b>Projections.</b> Power ratings are a least-squares fit to this season's ${MODEL.games} Shoreline-vs-Shoreline games with margins capped at 3 goals. Win chances assume results vary around the rating gap by about ${MODEL.sigma.toFixed(1)} goals. They are a rough guide for fans, not the CIAC's formula.</p>`;
+
+// ---------- Tooltip (hover on desktop, tap on phones)
+(function tips() {
+  const tip = $("tip"); let pinned = null;
+  const show = (el, x, y) => { tip.textContent = el.getAttribute("data-tip"); tip.hidden = false;
+    const r = tip.getBoundingClientRect(); let left = x + 14, top = y + 14;
+    if (left + r.width > innerWidth - 8) left = x - r.width - 14; if (top + r.height > innerHeight - 8) top = y - r.height - 14;
+    tip.style.left = Math.max(8, left) + "px"; tip.style.top = Math.max(8, top) + "px"; };
+  document.addEventListener("pointermove", e => {
+    if (e.pointerType !== "mouse") return;
+    const el = e.target.closest("[data-tip]");
+    if (el) show(el, e.clientX, e.clientY); else if (!pinned) tip.hidden = true;
+  });
+  document.addEventListener("click", e => {
+    const el = e.target.closest("[data-tip]");
+    if (el && el !== pinned) { pinned = el; show(el, e.clientX, e.clientY); } else { pinned = null; tip.hidden = true; }
+  });
+  addEventListener("scroll", () => { if (pinned) { pinned = null; tip.hidden = true; } }, { passive: true });
+})();
+
+// Redraw size-dependent charts when the card width changes
+(function onResize() {
+  let last = innerWidth, t = null;
+  addEventListener("resize", () => { clearTimeout(t); t = setTimeout(() => {
+    if (Math.abs(innerWidth - last) < 20) return; last = innerWidth; drawRating(); drawHist(); renderStats(); }, 150); });
+})();
+
+</script>
+
+</body>
+</html>
