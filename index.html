@@ -217,6 +217,10 @@ td.pts { font-weight: 700; font-size: 1.05rem; }
 .rounds .pl { grid-column: 2; font-size: .85rem; color: var(--ink-2); }
 @media (max-width: 560px) { .rounds li { grid-template-columns: 1fr; } .rounds .pl { grid-column: 1; } }
 
+a.ext { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: var(--line-strong); }
+a.ext:hover { text-decoration-color: currentColor; }
+a.ext span { font-size: .8em; color: var(--muted); }
+
 /* Diverging margin bars */
 .div-rows { display: grid; gap: 5px; }
 .div-row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 10px; align-items: center; font-size: .86rem; }
@@ -382,7 +386,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
           <details class="more" style="margin-top:10px"><summary>All results against outside teams</summary><div class="tscroll" style="border:0"><table id="outsideList"></table></div></details>
         </div>
         <div class="card">
-          <h3>Class S power ranking</h3>
+          <h3><a class="ext" href="https://ciac.fpsports.org/TournamentCentralRankings.aspx?TournamentID=5&amp;DivisionID=1006" target="_blank" rel="noopener">Class S power ranking <span aria-hidden="true">↗</span></a></h3>
           <p class="small muted" style="margin-top:6px" id="classSNote"></p>
           <div class="tscroll" style="border:0;margin-top:8px"><table id="classS"></table></div>
           <details class="more"><summary>Teams 26–48 (below .400 today)</summary><div class="tscroll" style="border:0"><table id="classS2"></table></div></details>
