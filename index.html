@@ -1244,7 +1244,7 @@ drawRating();
     CIAC.map(c => `<tr class="${c.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${esc(tname(c.id))}</td><td>${c.snapRank ? "#" + c.snapRank : "—"}</td><td>${c.snapPts ? c.snapPts.toFixed(2) : "—"}</td><td>${rec(c.s)}</td><td>${c.pct.toFixed(3).replace(/^0/, "")}</td><td>${c.left}</td><td class="l">${status(c)}</td></tr>`).join("") + `</tbody>`;
   const stale = CIAC.filter(c => c.snapRec && c.snapRec !== rec(c.s)).map(c => tname(c.id));
   $("ciacNote").textContent = `Record, win pct and "to qualify" are calculated from the scores on this page. Class S rank and power points are copied from the CIAC tournament rankings page on ${fmtLong(isoDate(CIAC_SNAPSHOT.asOf))}` +
-    (stale.length ? `; that snapshot does not yet include every result for ${stale.join(" and ")}.` : ".") +
+    (stale.length ? `; that snapshot does not yet include every result for ${(stale.length > 1 ? stale.slice(0, -1).join(", ") + " and " + stale.at(-1) : stale[0])}.` : ".") +
     ` "To qualify" compares each team's (2 × wins + ties) with 40% of 2 × its final number of games, using the schedule as listed. A tie counts as half a win, so a team that is one point short can get there with either a win or a tie.`;
 
   // Shoreline vs everyone
