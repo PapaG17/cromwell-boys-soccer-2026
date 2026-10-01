@@ -224,6 +224,9 @@ a.ext span { font-size: .8em; color: var(--muted); }
 .abbr-sm { display: none; }
 @media (max-width: 560px) { .hide-sm { display: none; } .full-sm { display: none; } .abbr-sm { display: inline; } #sim td, #sim th { white-space: normal; padding-inline: 6px; } #sim td.wrap-cell { min-width: 0; } #sim th { font-size: .66rem; letter-spacing: .04em; } }
 
+a.tl { color: inherit; text-decoration: none; }
+a.tl:hover, a.tl:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+
 /* Diverging margin bars */
 .div-rows { display: grid; gap: 5px; }
 .div-row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 10px; align-items: center; font-size: .86rem; }
@@ -549,6 +552,10 @@ const TEAMS = [
   { id: "WB",  name: "Westbrook", abbr: "WB", field: "Westbrook HS Field #2" }
 ];
 
+// Each team's CIAC schedule page (SchoolID)
+const CIAC_SCHOOL_ID = {"CRO": 33, "MOR": 97, "EH": 41, "HK": 65, "OS": 118, "VAL": 161, "POR": 126, "HR": 98, "COG": 30, "NB": 108, "WB": 169, "LOL": 88};
+const ciacTeamUrl = id => `https://ciac.fpsports.org/DashboardSchedule.aspx?SportID=2_5_5&SchoolID=${CIAC_SCHOOL_ID[id]}&QuickFilter=3`;
+
 // CIAC division of non-Shoreline opponents (from the schedule pages)
 const OUTSIDE_CLASS = {
   "Grasso Tech": "L", "Wheeler": "S", "St. Joseph": "M", "E.O. Smith": "L", "Abbott Tech": "L",
@@ -619,6 +626,8 @@ const GAMES = [
   ["9/23","4:00 PM","WB","Amistad",1,4,"N","Westbrook HS Field #2"],
   ["9/24","6:00 PM","HR","Putnam",7,1,"N","Tom Nevers Field"],
   ["9/30","3:45 PM","Middletown","HK",1,3,"N","Middletown HS Stadium"],
+  ["9/30","6:30 PM","Branford","VAL",1,2,"N","Branford HS Turf Field"],
+  ["9/30","6:30 PM","POR","Northwest Catholic",2,2,"N","Portland HS Varsity Field"],
 
   // ---- Upcoming: conference ----
   ["10/1","4:00 PM","MOR","OS",null,null,"C","Indian River Complex"],
@@ -655,8 +664,6 @@ const GAMES = [
 
   // ---- Upcoming: non-conference ----
   
-  ["9/30","6:30 PM","Branford","VAL",null,null,"N","Branford HS Turf"],
-  ["9/30","6:30 PM","POR","Northwest Catholic",null,null,"N","Portland HS Varsity Field"],
   ["10/1","6:00 PM","COG","Jonathan Law",null,null,"N","Wally Camp Complex"],
   ["10/3","3:00 PM","Joel Barlow","CRO",null,null,"N","Joel Barlow HS Field J1"],
   ["10/3","1:00 PM","OS","Canton",null,null,"N","Old Saybrook HS Turf"],
@@ -1129,12 +1136,15 @@ $("mastMeta").innerHTML =
       const g = p.g, top = g.conf && TOP_HALF.has(p.opp);
       let ch = "—";
       if (g.intra && g.conf) { const pr = matchProbs(g.home, g.away); ch = pct1(p.home ? pr.home : pr.away); }
-      return `<tr><td class="l">${fmtDay(g.date)}<div class="small muted">${g.time}</div></td><td class="l wrap-cell">${p.home ? "vs" : "at"} ${esc(tname(p.opp))} ${g.conf ? (top ? '<span class="chip big">Top 6</span>' : "") : '<span class="chip">Non-conf</span>'}</td><td>${ch}</td></tr>`;
+      return `<tr><td class="l">${fmtDay(g.date)}<div class="small muted">${g.time}</div></td><td class="l wrap-cell">${p.home ? "vs" : "at"} ${isShoreline(p.opp) ? tlink(p.opp) : esc(tname(p.opp))} ${g.conf ? (top ? '<span class="chip big">Top 6</span>' : "") : '<span class="chip">Non-conf</span>'}</td><td>${ch}</td></tr>`;
     }).join("") + `</tbody>`;
 
   $("croDone").innerHTML = `<thead><tr><th class="l">Date</th><th class="l">Opponent</th><th>Score</th><th class="l">&nbsp;</th></tr></thead><tbody>` +
-    [...all.log].reverse().map(p => `<tr><td class="l">${fmtDay(p.g.date)}</td><td class="l wrap-cell">${p.home ? "vs" : "at"} ${esc(tname(p.opp))}${p.g.conf ? "" : ' <span class="chip">Non-conf</span>'}</td><td>${p.gf}-${p.ga}</td><td class="l">${resChip(p.res)}</td></tr>`).join("") + `</tbody>`;
+    [...all.log].reverse().map(p => `<tr><td class="l">${fmtDay(p.g.date)}</td><td class="l wrap-cell">${p.home ? "vs" : "at"} ${isShoreline(p.opp) ? tlink(p.opp) : esc(tname(p.opp))}${p.g.conf ? "" : ' <span class="chip">Non-conf</span>'}</td><td>${p.gf}-${p.ga}</td><td class="l">${resChip(p.res)}</td></tr>`).join("") + `</tbody>`;
 })();
+
+// Shoreline team name linked to its CIAC schedule page
+const tlink = (id, label) => `<a class="tl" href="${ciacTeamUrl(id)}" target="_blank" rel="noopener">${label === undefined ? esc(tname(id)) : label}</a>`;
 
 // Last-5 badge with the game behind it on hover or tap
 const RES_WORD = { W: "Won", L: "Lost", T: "Tied" };
@@ -1155,7 +1165,7 @@ function gameListCell(r, n, games, what) {
   const head = `<thead><tr><th class="l sticky-col">#&nbsp;&nbsp;Team</th><th>GP</th><th>W-L-T</th><th>Pts</th><th>GF</th><th>GA</th><th>GD</th><th class="l">Last 5</th><th>Left</th><th title="Remaining games against current top-6 teams">Top-6 left</th><th title="Average points per game of remaining opponents">Opp PPG</th><th>Max</th><th title="Chance to win or share the regular-season title, from the projection">Title</th><th title="Chance to finish 1st or 2nd after tiebreakers, which earns a first-round bye">Top 2</th></tr></thead>`;
   const body = STANDINGS.map((r, k) => {
     const cls = [r.id === CRO ? "cro" : "", k === HALF - 1 ? "cut" : ""].join(" ");
-    return `<tr class="${cls}"><td class="l team sticky-col">${r.rank}&nbsp;&nbsp;${esc(tname(r.id))}</td><td>${r.gp}</td><td>${rec(r)}</td><td class="pts">${r.pts}</td><td>${r.gf}</td><td>${r.ga}</td><td>${sign(r.gd)}</td>
+    return `<tr class="${cls}"><td class="l team sticky-col">${r.rank}&nbsp;&nbsp;${tlink(r.id)}</td><td>${r.gp}</td><td>${rec(r)}</td><td class="pts">${r.pts}</td><td>${r.gf}</td><td>${r.ga}</td><td>${sign(r.gd)}</td>
       <td class="l"><span class="form">${r.log.slice(-5).map(formBadge).join("")}</span></td><td>${gameListCell(r, r.left, r.remaining, "league games left")}</td><td>${gameListCell(r, r.topLeft, r.remaining.filter(p => TOP_HALF.has(p.opp)), "games left vs the top 6")}</td><td>${f2(r.sos)}</td><td>${r.maxPts}</td><td>${pct1(SIM.byTeam[r.id].first)}</td><td>${pct1(SIM.byTeam[r.id].top2)}</td></tr>`;
   }).join("");
   $("standings").innerHTML = head + `<tbody>${body}</tbody>`;
@@ -1212,7 +1222,7 @@ drawRating();
   const ids = STANDINGS.map(r => r.id);
   let html = `<thead><tr><th class="rowh"></th>${ids.map(id => `<th class="colh ${id === CRO ? "cro" : ""}" title="${esc(tname(id))}">${TEAM_BY_ID[id].abbr}</th>`).join("")}</tr></thead><tbody>`;
   for (const a of ids) {
-    html += `<tr class="${a === CRO ? "croRow" : ""}"><th class="rowh ${a === CRO ? "cro" : ""}" scope="row"><span class="full">${esc(tname(a))}</span><span class="abbr">${TEAM_BY_ID[a].abbr}</span></th>`;
+    html += `<tr class="${a === CRO ? "croRow" : ""}"><th class="rowh ${a === CRO ? "cro" : ""}" scope="row">${tlink(a, `<span class="full">${esc(tname(a))}</span><span class="abbr">${TEAM_BY_ID[a].abbr}</span>`)}</th>`;
     for (const b of ids) {
       const c = h2hCell(a, b);
       if (c.self) { html += `<td class="cell self" aria-hidden="true"></td>`; continue; }
@@ -1241,7 +1251,7 @@ drawRating();
     return `<span class="chip ${tone}">${txt}</span>`;
   };
   $("ciac").innerHTML = `<thead><tr><th class="l sticky-col">Team</th><th>Class S rank</th><th>Power pts</th><th>Record</th><th>Win pct</th><th>Games left</th><th class="l">To qualify</th></tr></thead><tbody>` +
-    CIAC.map(c => `<tr class="${c.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${esc(tname(c.id))}</td><td>${c.snapRank ? "#" + c.snapRank : "—"}</td><td>${c.snapPts ? c.snapPts.toFixed(2) : "—"}</td><td>${rec(c.s)}</td><td>${c.pct.toFixed(3).replace(/^0/, "")}</td><td>${c.left}</td><td class="l">${status(c)}</td></tr>`).join("") + `</tbody>`;
+    CIAC.map(c => `<tr class="${c.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${tlink(c.id)}</td><td>${c.snapRank ? "#" + c.snapRank : "—"}</td><td>${c.snapPts ? c.snapPts.toFixed(2) : "—"}</td><td>${rec(c.s)}</td><td>${c.pct.toFixed(3).replace(/^0/, "")}</td><td>${c.left}</td><td class="l">${status(c)}</td></tr>`).join("") + `</tbody>`;
   const stale = CIAC.filter(c => c.snapRec && c.snapRec !== rec(c.s)).map(c => tname(c.id));
   $("ciacNote").textContent = `Record, win pct and "to qualify" are calculated from the scores on this page. Class S rank and power points are copied from the CIAC tournament rankings page on ${fmtLong(isoDate(CIAC_SNAPSHOT.asOf))}` +
     (stale.length ? `; that snapshot does not yet include every result for ${(stale.length > 1 ? stale.slice(0, -1).join(", ") + " and " + stale.at(-1) : stale[0])}.` : ".") +
@@ -1252,10 +1262,10 @@ drawRating();
   $("outsideFacts").innerHTML = `<div class="fact"><b class="num">${rec(O.line)}</b><span>Overall · ${O.line.gf}-${O.line.ga} goals</span></div>` +
     cls.map(c => `<div class="fact"><b class="num">${rec(O.byClass[c])}</b><span>vs Class ${c} teams</span></div>`).join("");
   $("outsideList").innerHTML = `<thead><tr><th class="l">Date</th><th class="l">Shoreline team</th><th class="l">Opponent</th><th>Score</th><th class="l">&nbsp;</th></tr></thead><tbody>` +
-    O.rows.map(r => `<tr class="${r.team === CRO ? "cro" : ""}"><td class="l">${fmtDay(r.p.g.date)}</td><td class="l">${esc(tname(r.team))}</td><td class="l">${r.p.home ? "vs" : "at"} ${esc(r.p.opp)} <span class="muted small">(${r.cls})</span></td><td>${r.p.gf}-${r.p.ga}</td><td class="l">${resChip(r.p.res)}</td></tr>`).join("") + `</tbody>`;
+    O.rows.map(r => `<tr class="${r.team === CRO ? "cro" : ""}"><td class="l">${fmtDay(r.p.g.date)}</td><td class="l">${tlink(r.team)}</td><td class="l">${r.p.home ? "vs" : "at"} ${esc(r.p.opp)} <span class="muted small">(${r.cls})</span></td><td>${r.p.gf}-${r.p.ga}</td><td class="l">${resChip(r.p.res)}</td></tr>`).join("") + `</tbody>`;
 
   $("classSNote").textContent = `Copied from the CIAC site on ${fmtLong(isoDate(CIAC_SNAPSHOT.asOf))}. Teams at .400 or better are listed first, ordered by power points. Shoreline teams are in bold.`;
-  const row = r => `<tr class="${r[4] === CRO ? "cro" : ""}"><td class="l">${r[0]}</td><td class="l" style="${r[4] ? "font-weight:700" : ""}">${esc(r[1])}</td><td>${r[2]}</td><td>${r[3].toFixed(2)}</td></tr>`;
+  const row = r => `<tr class="${r[4] === CRO ? "cro" : ""}"><td class="l">${r[0]}</td><td class="l" style="${r[4] ? "font-weight:700" : ""}">${r[4] ? tlink(r[4], esc(r[1])) : esc(r[1])}</td><td>${r[2]}</td><td>${r[3].toFixed(2)}</td></tr>`;
   const hd = `<thead><tr><th class="l">#</th><th class="l">School</th><th>Record</th><th>Power pts</th></tr></thead>`;
   $("classS").innerHTML = hd + `<tbody>${CIAC_SNAPSHOT.rows.filter(r => r[0] <= 25).map(row).join("")}</tbody>`;
   $("classS2").innerHTML = hd + `<tbody>${CIAC_SNAPSHOT.rows.filter(r => r[0] > 25).map(row).join("")}</tbody>`;
@@ -1346,7 +1356,7 @@ function renderStats() {
   // Home/away
   const haRows = S.map(s => {
     const h = s.home, a = s.away, d = ppg(h) - ppg(a);
-    return `<tr class="${s.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${esc(tname(s.id))}</td><td>${rec(h)}</td><td>${h.gp ? f2(ppg(h)) : "—"}</td><td>${h.gf}-${h.ga}</td><td>${rec(a)}</td><td>${a.gp ? f2(ppg(a)) : "—"}</td><td>${a.gf}-${a.ga}</td><td>${h.gp && a.gp ? (d > 0 ? "+" : d < 0 ? "−" : "") + Math.abs(d).toFixed(2) : "—"}</td></tr>`;
+    return `<tr class="${s.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${tlink(s.id)}</td><td>${rec(h)}</td><td>${h.gp ? f2(ppg(h)) : "—"}</td><td>${h.gf}-${h.ga}</td><td>${rec(a)}</td><td>${a.gp ? f2(ppg(a)) : "—"}</td><td>${a.gf}-${a.ga}</td><td>${h.gp && a.gp ? (d > 0 ? "+" : d < 0 ? "−" : "") + Math.abs(d).toFixed(2) : "—"}</td></tr>`;
   }).join("");
   $("homeAway").innerHTML = `<thead><tr><th class="l sticky-col">Team</th><th>Home</th><th>Pts/game</th><th>Goals</th><th>Away</th><th>Pts/game</th><th>Goals</th><th title="Home points per game minus away points per game">Home edge</th></tr></thead><tbody>${haRows}</tbody>`;
   const hw = S.reduce((a, s) => a + s.home.w, 0), hl = S.reduce((a, s) => a + s.home.l, 0), ht = S.reduce((a, s) => a + s.home.t, 0);
@@ -1393,7 +1403,7 @@ drawHist();
     STANDINGS.map(r => {
       const sp = splitRecord(r.id), c = teamStats(r.id, "conf").close;
       const gd = sp.top.gf - sp.top.ga;
-      return `<tr class="${r.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${esc(tname(r.id))}</td><td>${sp.top.gp ? rec(sp.top) : "—"}</td><td>${sp.top.gp ? `${sp.top.gf}-${sp.top.ga} (${sign(gd)})` : "—"}</td><td>${sp.bot.gp ? rec(sp.bot) : "—"}</td><td>${sp.bot.gp ? `${sp.bot.gf}-${sp.bot.ga}` : "—"}</td><td>${c.gp ? rec(c) : "—"}</td></tr>`;
+      return `<tr class="${r.id === CRO ? "cro" : ""}"><td class="l team sticky-col">${tlink(r.id)}</td><td>${sp.top.gp ? rec(sp.top) : "—"}</td><td>${sp.top.gp ? `${sp.top.gf}-${sp.top.ga} (${sign(gd)})` : "—"}</td><td>${sp.bot.gp ? rec(sp.bot) : "—"}</td><td>${sp.bot.gp ? `${sp.bot.gf}-${sp.bot.ga}` : "—"}</td><td>${c.gp ? rec(c) : "—"}</td></tr>`;
     }).join("") + `</tbody>`;
 })();
 
@@ -1474,7 +1484,8 @@ $("foot").innerHTML = `
 (function renderStateSim() {
   const S = STATE_SIM, T = Object.fromEntries(S.teams.map(t => [t.seed, t]));
   const nm = t => t.id ? `<b>${esc(t.name)}</b>` : esc(t.name);
-  const nmS = t => t.id ? `<b><span class="full-sm">${esc(t.name)}</span><span class="abbr-sm">${esc(TEAM_BY_ID[t.id].name.replace("Haddam-Killingworth", "Haddam-K."))}</span></b>` : esc(t.name);
+  const nmT = t => t.id ? `<b>${tlink(t.id, esc(t.name))}</b>` : esc(t.name);
+  const nmS = t => t.id ? `<b>${tlink(t.id, `<span class="full-sm">${esc(t.name)}</span><span class="abbr-sm">${esc(TEAM_BY_ID[t.id].name.replace("Haddam-Killingworth", "Haddam-K."))}</span>`)}</b>` : esc(t.name);
   const p = x => x >= 0.9995 ? "100%" : pct1(x);
   $("simIntro").textContent = `Uses today's CIAC Class S power ranking as the seeding. ${S.n} teams are at .400 or better, so the top ${S.byes} seeds get a first-round bye. The whole tournament is simulated ${S.N.toLocaleString()} times, so these numbers will move a lot as records and rankings change.`;
 
