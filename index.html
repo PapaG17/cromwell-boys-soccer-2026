@@ -1144,7 +1144,7 @@ $("mastMeta").innerHTML =
 })();
 
 // Shoreline team name linked to its CIAC schedule page
-const tlink = (id, label) => `<a class="tl" href="${ciacTeamUrl(id)}" target="_blank" rel="noopener">${label === undefined ? esc(tname(id)) : label}</a>`;
+function tlink(id, label) { return `<a class="tl" href="${ciacTeamUrl(id)}" target="_blank" rel="noopener">${label === undefined ? esc(tname(id)) : label}</a>`; }
 
 // Last-5 badge with the game behind it on hover or tap
 const RES_WORD = { W: "Won", L: "Lost", T: "Tied" };
