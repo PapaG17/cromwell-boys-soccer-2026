@@ -512,7 +512,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
       </div>
       <div class="card">
         <h3>Shoreline teams in the bracket</h3>
-        <p class="small muted" style="margin-top:6px">Chance to reach each round. The top 7 seeds get a bye into Round 2.</p>
+        <p class="small muted" style="margin-top:6px">Chance to reach each round. Byes go to the top seeds, into Round 2.</p>
         <div class="tscroll" style="border:0;margin-top:8px"><table id="simShore"></table></div>
       </div>
       <details class="card more"><summary>All 25 seeds</summary><div class="tscroll" style="border:0;margin-top:8px"><table id="simAll"></table></div></details>
@@ -699,29 +699,30 @@ const GAMES = [
   ["10/27","3:30 PM","Comp Sci","HR",null,null,"N","Abbe Road Soccer Complex"]
 ];
 
-// CIAC Class S tournament rankings, copied from ciac.fpsports.org on 10/1/2026 (morning).
+// CIAC Class S tournament rankings, copied from ciac.fpsports.org on 10/2/2026 (morning).
 // Seeding uses "Points" (the new power ranking). Qualifying = winning pct .400 or better.
+// "qualifying" = how many teams the CIAC lists as qualifying (ranks 1..qualifying).
 const CIAC_SNAPSHOT = {
-  asOf: "2026-10-01",
+  asOf: "2026-10-02",
+  qualifying: 24,
   note: "",
   rows: [
-    [1,"Cromwell","6-2-0",8.60,"CRO"],[2,"Somers","4-1-2",8.41],[3,"Morgan","5-1-2",8.38,"MOR"],
-    [4,"East Catholic","3-4-1",8.38],[5,"Northwestern","6-1-0",8.36],[6,"East Hampton","5-1-2",8.20,"EH"],
-    [7,"Haddam-Killingworth","7-2-0",8.16,"HK"],[8,"Immaculate","6-1-1",8.16],[9,"Old Saybrook","5-1-1",8.13,"OS"],
-    [10,"Canton","3-2-2",8.12],[11,"Shepaug Valley","6-1-0",8.00],[12,"Housatonic Regional","4-4-0",7.96],
-    [13,"Northwest Catholic","3-2-2",7.85],[14,"Valley Regional","4-2-2",7.74,"VAL"],[15,"Holy Cross","5-1-2",7.55],
-    [16,"Thomaston","3-4-0",7.51],[17,"Woodland","4-3-1",7.39],[18,"Portland","4-3-2",7.30,"POR"],
-    [19,"Bolton","4-2-1",7.22],[20,"St. Paul Catholic","4-3-2",7.13],[21,"Wheeler","4-1-2",6.95],
-    [22,"St. Bernard","2-3-0",6.79],[23,"Lyman Memorial","6-2-0",6.63],[24,"Innovation","4-4-0",6.60],
-    [25,"Aerospace","4-2-1",6.38],
-    [26,"Stonington","1-4-3",7.98],[27,"Lyme-Old Lyme","2-4-1",7.65,"LOL"],[28,"Windsor Locks","2-5-0",7.24],
-    [29,"Terryville","2-5-1",7.19],[30,"Kolbe Cathedral","1-6-1",7.19],[31,"East Granby","2-4-1",6.95],
-    [32,"Notre Dame Prep","0-5-2",6.87],[33,"Hale Ray","2-5-0",6.69,"HR"],[34,"Coginchaug","1-6-0",6.68,"COG"],
-    [35,"Oxford","2-6-0",6.61],[36,"East Windsor","2-5-0",6.61],[37,"Gilbert","1-7-0",6.41],
-    [38,"North Branford","1-6-0",6.30,"NB"],[39,"Westbrook","1-7-0",6.26,"WB"],[40,"Coventry","0-8-0",6.21],
-    [41,"International","2-5-0",6.19],[42,"Bloomfield","0-7-0",6.11],[43,"HMTCA","2-7-1",6.08],
-    [44,"Derby","0-7-1",5.55],[45,"ACES Chase Academy","0-8-0",5.40],[46,"Tourtellotte","2-5-0",5.37],
-    [47,"Classical Magnet","0-7-0",5.26],[48,"Putnam","0-8-0",4.88]
+    [1,"Cromwell","7-2-0",8.59,"CRO"],[2,"Somers","4-1-2",8.41],[3,"Northwestern","6-1-0",8.36],
+    [4,"Morgan","6-1-2",8.28,"MOR"],[5,"Haddam-Killingworth","8-2-0",8.25,"HK"],[6,"East Catholic","3-4-1",8.22],
+    [7,"East Hampton","6-1-2",8.21,"EH"],[8,"Canton","3-3-2",8.12],[9,"Immaculate","6-2-1",8.09],
+    [10,"Old Saybrook","5-2-1",8.03,"OS"],[11,"Shepaug Valley","7-1-0",8.02],[12,"Housatonic Regional","4-4-0",7.96],
+    [13,"Northwest Catholic","3-2-2",7.83],[14,"Valley Regional","5-2-2",7.80,"VAL"],[15,"Holy Cross","5-1-2",7.52],
+    [16,"Woodland","4-3-1",7.36],[17,"Portland","4-3-2",7.26,"POR"],[18,"Bolton","4-3-1",7.15],
+    [19,"St. Paul Catholic","4-3-2",7.12],[20,"Wheeler","4-1-2",6.89],[21,"St. Bernard","2-3-0",6.76],
+    [22,"Lyman Memorial","6-2-0",6.63],[23,"Innovation","4-4-0",6.57],[24,"Aerospace","4-3-1",6.31],
+    [25,"Stonington","1-4-3",7.97],[26,"Lyme-Old Lyme","2-5-1",7.41,"LOL"],[27,"Thomaston","3-5-0",7.33],
+    [28,"Windsor Locks","3-5-0",7.31],[29,"Terryville","2-5-1",7.19],[30,"Kolbe Cathedral","1-6-1",7.16],
+    [31,"East Granby","2-4-1",6.96],[32,"Notre Dame Prep","0-6-3",6.70],[33,"East Windsor","3-5-0",6.63],
+    [34,"Coginchaug","1-7-0",6.58,"COG"],[35,"Hale Ray","2-6-0",6.58,"HR"],[36,"Oxford","2-6-0",6.57],
+    [37,"Gilbert","1-8-0",6.40],[38,"Westbrook","1-8-0",6.19,"WB"],[39,"North Branford","1-7-0",6.15,"NB"],
+    [40,"Coventry","0-9-0",6.14],[41,"International","2-5-0",6.11],[42,"Bloomfield","0-8-0",6.08],
+    [43,"HMTCA","2-7-1",6.05],[44,"Derby","0-7-1",5.51],[45,"ACES Chase Academy","0-9-0",5.37],
+    [46,"Tourtellotte","2-5-0",5.35],[47,"Classical Magnet","0-7-0",5.23],[48,"Putnam","0-9-0",4.77]
   ]
 };
 
@@ -1008,7 +1009,7 @@ if (typeof module !== "undefined") module.exports = { ALL_GAMES, STANDINGS, TOP_
 // packet section 6.5; missing seeds are byes. Each game: power-point gap treated as an expected goal
 // margin, spread by ~1.3 goals; a regulation tie goes to OT/PKs as a coin flip. Our assumption, not the CIAC's.
 const STATE_SIM = (() => {
-  const Q = CIAC_SNAPSHOT.rows.filter(r => r[0] <= 25);
+  const Q = CIAC_SNAPSHOT.rows.filter(r => r[0] <= CIAC_SNAPSHOT.qualifying);
   const n = Q.length, pts = {}, name = {}, sid = {};
   Q.forEach(r => { pts[r[0]] = r[3]; name[r[0]] = r[1]; sid[r[0]] = r[4] || null; });
   const R1 = [[1,32],[16,17],[8,25],[9,24],[4,29],[13,20],[5,28],[12,21],[2,31],[15,18],[7,26],[10,23],[3,30],[14,19],[6,27],[11,22]];
@@ -1268,8 +1269,8 @@ drawRating();
   $("classSNote").textContent = `Copied from the CIAC site on ${fmtLong(isoDate(CIAC_SNAPSHOT.asOf))}. Teams at .400 or better are listed first, ordered by power points. Shoreline teams are in bold.`;
   const row = r => `<tr class="${r[4] === CRO ? "cro" : ""}"><td class="l">${r[0]}</td><td class="l" style="${r[4] ? "font-weight:700" : ""}">${r[4] ? tlink(r[4], esc(r[1])) : esc(r[1])}</td><td>${r[2]}</td><td>${r[3].toFixed(2)}</td></tr>`;
   const hd = `<thead><tr><th class="l">#</th><th class="l">School</th><th>Record</th><th>Power pts</th></tr></thead>`;
-  $("classS").innerHTML = hd + `<tbody>${CIAC_SNAPSHOT.rows.filter(r => r[0] <= 25).map(row).join("")}</tbody>`;
-  $("classS2").innerHTML = hd + `<tbody>${CIAC_SNAPSHOT.rows.filter(r => r[0] > 25).map(row).join("")}</tbody>`;
+  $("classS").innerHTML = hd + `<tbody>${CIAC_SNAPSHOT.rows.filter(r => r[0] <= CIAC_SNAPSHOT.qualifying).map(row).join("")}</tbody>`;
+  $("classS2").innerHTML = hd + `<tbody>${CIAC_SNAPSHOT.rows.filter(r => r[0] > CIAC_SNAPSHOT.qualifying).map(row).join("")}</tbody>`;
 })();
 
 // ---------- Stats (depends on scope)
@@ -1517,6 +1518,15 @@ $("foot").innerHTML = `
 
   const gap = (a, b) => Math.round(S.pWin(a, b) * 100);
   $("simNote").textContent = `How it works: seeding and the bracket follow the CIAC packet (1 vs 32, 16 vs 17 and so on). Each game uses the gap in CIAC power points as the expected goal margin, with results varying by about 1.3 goals, and a tie after 80 minutes decided by a coin flip for overtime and penalty kicks. With that scale, #1 beats #16 about ${gap(1, 16)}% of the time and #1 beats #2 about ${gap(1, 2)}% of the time. The CIAC has not said what a power point is worth in goals, so treat this as a rough guide. Rankings snapshot from ${fmtLong(isoDate(CIAC_SNAPSHOT.asOf))}. Final seeds are set Nov 3.`;
+})();
+
+// Labels that depend on how many teams qualify today
+(function qualLabels() {
+  const q = CIAC_SNAPSHOT.qualifying, n = CIAC_SNAPSHOT.rows.length;
+  const s2 = document.querySelector("#classS2")?.closest("details")?.querySelector("summary");
+  if (s2) s2.textContent = `Teams ${q + 1}–${n} (below .400 today)`;
+  const sa = document.querySelector("#simAll")?.closest("details")?.querySelector("summary");
+  if (sa) sa.textContent = `All ${q} seeds`;
 })();
 
 </script>
