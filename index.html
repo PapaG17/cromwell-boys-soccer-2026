@@ -535,7 +535,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
 // Shoreline teams use their 3-letter code; anyone else uses their school name.
 // Leave both scores null until the game is played. Preseason (before 9/8) is excluded.
 const SEASON_YEAR = 2026;
-const AS_OF = { results: "2026-10-01", updated: "2026-10-01" };
+const AS_OF = { results: "2026-10-03", updated: "2026-10-04" };
 
 const TEAMS = [
   { id: "CRO", name: "Cromwell", abbr: "CRO", field: "Cromwell HS" },
@@ -636,8 +636,8 @@ const GAMES = [
   ["10/1","3:45 PM","HK","LOL",4,0,"C","HKHS Press Box Field"],
   ["10/1","4:00 PM","HR","EH",0,5,"C","Tom Nevers Field"],
   ["10/1","4:00 PM","VAL","NB",9,0,"C","Richard B. Blythe Turf"],
-  ["10/2","4:00 PM","NB","HR",null,null,"C","NBHS Front Field"],
-  ["10/3","12:00 PM","COG","POR",null,null,"C","Wally Camp Complex"],
+  ["10/2","4:00 PM","NB","HR",3,6,"C","NBHS Front Field"],
+  ["10/3","12:00 PM","COG","POR",3,3,"C","Wally Camp Complex"],
   ["10/4","2:00 PM","EH","WB",null,null,"C","East Hampton HS Main Field"],
   ["10/5","3:45 PM","VAL","CRO",null,null,"C","Richard B. Blythe Turf"],
   ["10/5","4:00 PM","POR","OS",null,null,"C","Portland HS Varsity Field"],
@@ -666,9 +666,9 @@ const GAMES = [
   // ---- Upcoming: non-conference ----
   
   
-  ["10/3","3:00 PM","Joel Barlow","CRO",null,null,"N","Joel Barlow HS Field J1"],
-  ["10/3","1:00 PM","OS","Canton",null,null,"N","Old Saybrook HS Turf"],
-  ["10/3","11:00 AM","LOL","East Lyme",null,null,"N","Lyme-Old Lyme HS Turf"],
+  ["10/3","3:00 PM","Joel Barlow","CRO",1,0,"N","Joel Barlow HS Field J1"],
+  ["10/3","1:00 PM","OS","Canton",4,2,"N","Old Saybrook HS Turf"],
+  ["10/3","11:00 AM","LOL","East Lyme",0,3,"N","Lyme-Old Lyme HS Turf"],
   ["10/10","11:00 AM","East Lyme","OS",null,null,"N","East Lyme HS Dick North Turf"],
   ["10/10","12:00 PM","MOR","Waterford",null,null,"N","Indian River Complex"],
   ["10/13","4:00 PM","LOL","Ledyard",null,null,"N","Lyme-Old Lyme HS Turf"],
