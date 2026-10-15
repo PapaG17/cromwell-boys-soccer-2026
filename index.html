@@ -534,7 +534,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
 // Shoreline teams use their 3-letter code; anyone else uses their school name.
 // Leave both scores null until the game is played. Preseason (before 9/8) is excluded.
 const SEASON_YEAR = 2026;
-const AS_OF = { results: "2026-10-14", updated: "2026-10-15" };
+const AS_OF = { results: "2026-10-15", updated: "2026-10-15" };
 
 const TEAMS = [
   { id: "CRO", name: "Cromwell", abbr: "CRO", field: "Cromwell HS" },
@@ -654,8 +654,8 @@ const GAMES = [
   ["10/13","6:00 PM","HK","VAL",2,0,"C","HKHS Press Box Field"],
   ["10/13","4:00 PM","OS","NB",7,0,"C","Old Saybrook HS Turf"],
   ["10/13","6:00 PM","COG","HR",1,2,"C","Wally Camp Complex"],
-  ["10/15","4:00 PM","CRO","OS",null,null,"C","Cromwell HS Soccer Field 2"],
-  ["10/15","3:45 PM","HK","MOR",null,null,"C","HKHS Press Box Field"],
+  ["10/15","4:00 PM","CRO","OS",3,1,"C","Cromwell HS Soccer Field 2"],
+  ["10/15","3:45 PM","HK","MOR",2,4,"C","HKHS Press Box Field"],
   ["10/15","6:30 PM","VAL","LOL",null,null,"C","Richard B. Blythe Turf"],
   ["10/15","6:00 PM","NB","COG",null,null,"C","NBHS Colafati Field"],
   ["10/15","5:00 PM","HR","WB",null,null,"C","Tom Nevers Field"],
@@ -1090,11 +1090,21 @@ $("mastMeta").innerHTML =
   } else {
     stake = `Cromwell is ${ord(row.rank)}, ${leader.pts - row.pts} point${leader.pts - row.pts === 1 ? "" : "s"} behind ${tname(leader.id)}.`;
   }
-  stake += ` ${row.topLeft} of Cromwell's ${row.left} remaining league games are against top-half teams, the toughest run-in in the league by opponents' points per game.`;
-  const toughest = [...STANDINGS].sort((a, b) => b.sos - a.sos)[0];
-  if (toughest.id !== CRO) stake = stake.replace(", the toughest run-in in the league by opponents' points per game", "");
-  const so = SIM.byTeam[CRO];
-  stake += ` Projection: ${pct1(so.first)} to win or share the title and ${pct1(so.top2)} to finish top 2 for a first-round bye.`;
+  const others = STANDINGS.filter(r => r.id !== CRO);
+  if (row.left === 0 && row.rank === 1 && others.every(r => r.maxPts < row.pts)) {
+    const second = STANDINGS[1];
+    stake = `Cromwell has won the Shoreline regular-season title outright: ${row.w}-${row.l}-${row.t} and ${row.pts} points, ` +
+      `${row.pts - second.pts} ahead of ${tname(second.id)}. That locks up the #1 seed and a first-round bye in the Shoreline tournament.`;
+  } else if (row.left === 0) {
+    const so = SIM.byTeam[CRO];
+    stake += ` Cromwell's league schedule is done. Chance of finishing top 2 for a first-round bye: ${pct1(so.top2)}.`;
+  } else {
+    stake += ` ${row.topLeft} of Cromwell's ${row.left} remaining league games are against top-half teams, the toughest run-in in the league by opponents' points per game.`;
+    const toughest = [...STANDINGS].sort((a, b) => b.sos - a.sos)[0];
+    if (toughest.id !== CRO) stake = stake.replace(", the toughest run-in in the league by opponents' points per game", "");
+    const so = SIM.byTeam[CRO];
+    stake += ` Projection: ${pct1(so.first)} to win or share the title and ${pct1(so.top2)} to finish top 2 for a first-round bye.`;
+  }
   $("croStake").textContent = stake;
 
   const snapRank = snap && snap.snapRank;
