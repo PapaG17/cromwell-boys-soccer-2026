@@ -1260,7 +1260,10 @@ drawRating();
     if (c.status === "out") return `<span class="chip bad">✕ Can't reach .400</span>`;
     if (c.status === "short") return `<span class="chip warn">Fewer than 10 games</span>`;
     const tone = c.needW <= c.left / 3 ? "good" : c.needW <= (2 * c.left) / 3 ? "warn" : "bad";
-    const txt = c.short === 1 ? `Needs 1 win or tie of ${c.left}` : `Needs ${c.needW} more win${c.needW === 1 ? "" : "s"} of ${c.left}`;
+    const k = (c.short - 1) / 2;
+    const txt = c.short === 1 ? `Needs 1 win or tie of ${c.left}`
+      : c.short % 2 === 1 ? `Needs ${k} win${k === 1 ? "" : "s"} + a tie, or ${k + 1} wins, of ${c.left}`
+      : `Needs ${c.needW} more win${c.needW === 1 ? "" : "s"} of ${c.left}`;
     return `<span class="chip ${tone}">${txt}</span>`;
   };
   $("ciac").innerHTML = `<thead><tr><th class="l sticky-col">Team</th><th>Class S rank</th><th>Power pts</th><th>Record</th><th>Win pct</th><th>Games left</th><th class="l">To qualify</th></tr></thead><tbody>` +
