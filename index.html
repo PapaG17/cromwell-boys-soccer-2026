@@ -534,7 +534,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
 // Shoreline teams use their 3-letter code; anyone else uses their school name.
 // Leave both scores null until the game is played. Preseason (before 9/8) is excluded.
 const SEASON_YEAR = 2026;
-const AS_OF = { results: "2026-10-19", updated: "2026-10-22" };
+const AS_OF = { results: "2026-10-22", updated: "2026-10-23" };
 
 const TEAMS = [
   { id: "CRO", name: "Cromwell", abbr: "CRO", field: "Cromwell HS" },
@@ -660,7 +660,7 @@ const GAMES = [
   ["10/15","6:00 PM","NB","COG",3,2,"C","NBHS Colafati Field"],
   ["10/15","5:00 PM","HR","WB",7,0,"C","Tom Nevers Field"],
   ["10/24","TBD","POR","EH",null,null,"C","Portland HS Varsity Field"],
-  ["10/22","4:00 PM","WB","LOL",null,null,"C","Westbrook HS Field #2"],
+  ["10/22","4:00 PM","WB","LOL",2,2,"C","Westbrook HS Field #2"],
 
   // ---- Upcoming: non-conference ----
   
@@ -684,16 +684,16 @@ const GAMES = [
   ["10/19","6:00 PM","HR","HMTCA",4,1,"N","Tom Nevers Field"],
   ["10/19","6:00 PM","NB","Vinal Tech",5,0,"N","NBHS Colafati Field"],
   ["10/19","4:00 PM","Amistad","WB",7,3,"N","Amistad HS"],
-  ["10/20","4:00 PM","WB","Grasso Tech",null,null,"N","Westbrook HS Field #2"],
-  ["10/21","4:00 PM","LOL","Ellington",null,null,"N","Lyme-Old Lyme HS Turf"],
-  ["10/21","6:00 PM","CRO","Wolcott",null,null,"N","Cromwell HS Main Field"],
-  ["10/21","3:45 PM","Manchester","HK",null,null,"N","Manchester HS Memorial Field"],
-  ["10/21","4:00 PM","VAL","Lyman Memorial",null,null,"N","Richard B. Blythe Turf"],
-  ["10/21","3:45 PM","East Granby","COG",null,null,"N","East Granby HS Lower Field"],
+  ["10/20","4:00 PM","WB","Grasso Tech",1,5,"N","Westbrook HS Field #2"],
+  ["10/21","4:00 PM","LOL","Ellington",3,4,"N","Lyme-Old Lyme HS Turf"],
+  ["10/21","6:00 PM","CRO","Wolcott",3,0,"N","Cromwell HS Main Field"],
+  ["10/21","3:45 PM","Manchester","HK",3,2,"N","Manchester HS Memorial Field"],
+  ["10/21","4:00 PM","VAL","Lyman Memorial",3,0,"N","Richard B. Blythe Turf"],
+  ["10/21","3:45 PM","East Granby","COG",1,1,"N","East Granby HS Lower Field"],
   ["10/22","4:00 PM","Suffield","OS",null,null,"N","Suffield HS Ted Beneski Turf"],
   ["10/22","6:30 PM","POR","Bolton",null,null,"N","Portland HS Varsity Field"],
-  ["10/22","4:00 PM","COG","Wilcox Tech",null,null,"N","Wally Camp Complex"],
-  ["10/22","3:30 PM","Platt Tech","NB",null,null,"N","Orange Ave Athletic Complex"],
+  ["10/22","4:00 PM","COG","Wilcox Tech",2,2,"N","Wally Camp Complex"],
+  ["10/22","3:30 PM","Platt Tech","NB",1,0,"N","Orange Ave Athletic Complex"],
   ["10/23","6:00 PM","MOR","St. Paul Catholic",null,null,"N","Indian River Complex"],
   ["10/23","6:30 PM","VAL","Amistad",null,null,"N","Richard B. Blythe Turf"],
   ["10/27","3:30 PM","Comp Sci","HR",null,null,"N","Abbe Road Soccer Complex"]
