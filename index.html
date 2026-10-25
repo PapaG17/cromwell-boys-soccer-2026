@@ -284,6 +284,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
   th, td { padding: 7px 8px; }
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+.clinch{font-weight:700;color:var(--muted);font-size:.85em}
 </style>
 </head>
 <body>
@@ -347,6 +348,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
         <p>Conference games only. 3 points for a win, 1 for a tie.</p>
       </div>
       <div class="tscroll"><table id="standings"></table></div>
+      <p class="note" id="clinchKey"></p>
       <p class="note" id="tbNote"></p>
       <div class="grid-2">
         <div class="card">
@@ -1176,12 +1178,19 @@ function gameListCell(r, n, games, what) {
 // ---------- Standings
 (function renderStandings() {
   const head = `<thead><tr><th class="l sticky-col">#&nbsp;&nbsp;Team</th><th>GP</th><th>W-L-T</th><th>Pts</th><th>GF</th><th>GA</th><th>GD</th><th class="l">Last 5</th><th>Left</th><th title="Remaining games against current top-6 teams">Top-6 left</th><th title="Average points per game of remaining opponents">Opp PPG</th><th>Max</th><th title="Chance to win or share the regular-season title, from the projection">Title</th><th title="Chance to finish 1st or 2nd after tiebreakers, which earns a first-round bye">Top 2</th></tr></thead>`;
+  // Clinch marks (standard convention). Shoreline tournament: top 6 qualify, top 2 get byes.
+  const TOURNEY = 6, BYES = 2, done = STANDINGS.every(r => r.left === 0);
+  const clinched = (r, n) => done ? r.rank <= n : STANDINGS.filter(o => o.id !== r.id && o.maxPts >= r.pts).length < n;
+  const out = (r, n) => done ? r.rank > n : STANDINGS.filter(o => o.id !== r.id && o.pts > r.maxPts).length >= n;
+  const mark = r => clinched(r, 1) ? "z" : clinched(r, BYES) ? "y" : clinched(r, TOURNEY) ? "x" : out(r, TOURNEY) ? "e" : "";
   const body = STANDINGS.map((r, k) => {
     const cls = [r.id === CRO ? "cro" : "", k === HALF - 1 ? "cut" : ""].join(" ");
-    return `<tr class="${cls}"><td class="l team sticky-col">${r.rank}&nbsp;&nbsp;${tlink(r.id)}</td><td>${r.gp}</td><td>${rec(r)}</td><td class="pts">${r.pts}</td><td>${r.gf}</td><td>${r.ga}</td><td>${sign(r.gd)}</td>
+    const m = mark(r);
+    return `<tr class="${cls}"><td class="l team sticky-col">${r.rank}&nbsp;&nbsp;${m ? `<span class="clinch">${m}</span>&ndash;` : ""}${tlink(r.id)}</td><td>${r.gp}</td><td>${rec(r)}</td><td class="pts">${r.pts}</td><td>${r.gf}</td><td>${r.ga}</td><td>${sign(r.gd)}</td>
       <td class="l"><span class="form">${r.log.slice(-5).map(formBadge).join("")}</span></td><td>${gameListCell(r, r.left, r.remaining, "league games left")}</td><td>${gameListCell(r, r.topLeft, r.remaining.filter(p => TOP_HALF.has(p.opp)), "games left vs the top 6")}</td><td>${f2(r.sos)}</td><td>${r.maxPts}</td><td>${pct1(SIM.byTeam[r.id].first)}</td><td>${pct1(SIM.byTeam[r.id].top2)}</td></tr>`;
   }).join("");
   $("standings").innerHTML = head + `<tbody>${body}</tbody>`;
+  $("clinchKey").innerHTML = `<b>z</b> clinched first place &nbsp;·&nbsp; <b>y</b> clinched a first-round bye (top ${BYES}) &nbsp;·&nbsp; <b>x</b> clinched a Shoreline tournament spot (top ${TOURNEY}) &nbsp;·&nbsp; <b>e</b> eliminated from the Shoreline tournament` + (done ? ". Places use the tiebreaker shown below." : "");
 
   const notes = [];
   for (let i = 0; i < STANDINGS.length;) {
