@@ -96,6 +96,7 @@ nav.jump .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: non
 nav.jump a { flex: none; text-decoration: none; font: 600 .95rem/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase;
   padding: 8px 12px; border-radius: 999px; color: var(--ink-2); }
 nav.jump a:hover { background: var(--surface-2); color: var(--ink); }
+nav.jump a.pagelink { color: var(--pitch); border: 1px solid var(--line-strong); }
 
 main .wrap { display: grid; gap: 44px; padding-block: 28px 56px; }
 section { display: grid; gap: 16px; scroll-margin-top: 64px; min-width: 0; }
@@ -285,6 +286,35 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 .clinch{font-weight:700;color:var(--muted);font-size:.85em}
+
+/* Goals for / against butterfly */
+.gp-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.gp-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: .82rem; color: var(--ink-2); margin-top: 10px; }
+.gp-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.gp-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.gpic { display: grid; grid-template-columns: minmax(172px, 1.3fr) 3fr 54px 3fr; align-items: center; margin-top: 10px; }
+.gpic .h { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.gpic .h.r { text-align: right; padding-right: 8px; } .gpic .h.c { text-align: center; } .gpic .h.l { padding-left: 8px; }
+.gpic .row { display: contents; }
+.gpic .row > * { padding-block: 5px; border-bottom: 1px solid var(--surface-2); }
+.gpic .row.cro > * { background: var(--pitch-soft); }
+.gpic .row:hover > * { background: var(--surface-2); }
+.gpic .nm { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 6px; }
+.gpic .row.cro .nm { font-weight: 700; color: var(--cro-ink); }
+.gpic .sd { display: flex; align-items: center; gap: 6px; min-width: 0; padding-inline: 8px; }
+.gpic .sd.a { flex-direction: row-reverse; }
+.gpic .b { height: 14px; flex: none; }
+.gpic .a .b { background: var(--l2); border-radius: 4px 0 0 4px; }
+.gpic .f .b { background: var(--bar); border-radius: 0 4px 4px 0; }
+.gpic .v { font-size: .82rem; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.gpic .gd { text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; font-size: .9rem; border-inline: 2px solid var(--ink); }
+.gpic .gd.neg { color: var(--muted); }
+.gpic .sn { display: none; }
+@media (max-width: 560px) {
+  .gpic { grid-template-columns: 82px 1fr 42px 1fr; }
+  .gpic .sd { padding-inline: 4px; } .gpic .v { font-size: .74rem; } .gpic .gd { font-size: .8rem; }
+  .gpic .fn { display: none; } .gpic .sn { display: inline; } .gpic .nm { font-size: .8rem; padding-left: 3px; }
+}
 </style>
 </head>
 <body>
@@ -316,6 +346,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
     <a href="#stats">Stats</a>
     <a href="#schedule">Schedule</a>
     <a href="#playoffs">Playoffs</a>
+    <a href="bracket.html" class="pagelink">State bracket ↗</a>
     <a href="#sim">State sim</a>
   </div>
 </nav>
@@ -423,6 +454,19 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
       <div class="grid-2">
         <div class="card"><h3>Most goals scored</h3><div class="hbars" id="rankGF"></div></div>
         <div class="card"><h3>Fewest goals allowed</h3><div class="hbars" id="rankGA"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="gp-head">
+          <h3>Goals for, goals against</h3>
+          <div class="seg-ctl" role="group" aria-label="Totals or per game">
+            <button type="button" id="gpTot" aria-pressed="true">Totals</button>
+            <button type="button" id="gpPer" aria-pressed="false">Per game</button>
+          </div>
+        </div>
+        <p class="small muted" style="margin-top:6px">Allowed runs left, scored runs right, goal difference sits on the line between them. Sorted by goal difference.</p>
+        <div class="gp-legend"><span><i style="background:var(--l2)"></i>Goals allowed</span><span><i style="background:var(--bar)"></i>Goals scored</span></div>
+        <div class="gpic" id="goalsPic"></div>
       </div>
 
       <div class="card">
@@ -1298,6 +1342,7 @@ drawRating();
 
 // ---------- Stats (depends on scope)
 let SCOPE = "conf";
+let GP_UNIT = "tot";
 try { const s = localStorage.getItem("shoreline-scope"); if (s === "all" || s === "conf") SCOPE = s; } catch (e) {}
 
 function renderStats() {
@@ -1356,6 +1401,26 @@ function renderStats() {
     bars(byGF, gpg, s => `<b>${s.gf}</b> <span class="muted">${f1(gpg(s))}</span>`, s => `${tname(s.id)}: ${s.gf} goals in ${s.gp} games (${f2(gpg(s))} per game)`);
   $("rankGA").innerHTML = `<p class="small muted" style="margin:6px 0 10px">Total allowed, bar = per game · shutouts in brackets</p>` +
     bars(byGA, apg, s => `<b>${s.ga}</b> <span class="muted">(${s.cs})</span>`, s => `${tname(s.id)}: ${s.ga} allowed in ${s.gp} games (${f2(apg(s))} per game), ${s.cs} shutout${s.cs === 1 ? "" : "s"}`);
+
+  // Goals for / against butterfly
+  (function goalsPicture() {
+    const per = GP_UNIT === "pg";
+    $("gpTot").setAttribute("aria-pressed", !per); $("gpPer").setAttribute("aria-pressed", per);
+    const R = S.map(s => { const k = per && s.gp ? 1 / s.gp : 1; return { s, f: s.gf * k, a: s.ga * k, d: (s.gf - s.ga) * k }; })
+      .sort((x, y) => y.d - x.d || y.f - x.f);
+    const mx = Math.max(...R.map(r => Math.max(r.f, r.a)), 0.01);
+    const fv = v => per ? f1(v) : String(v);
+    const fd = v => (v > 0.0001 ? "+" : v < -0.0001 ? "−" : "") + (per ? f1(Math.abs(v)) : Math.abs(v));
+    const w = v => `calc(${v / mx * 100}% - ${v / mx * 34}px)`;
+    const SHORTN = { HK: "Haddam-K.", EH: "E. Hampton", VAL: "Valley", LOL: "Old Lyme", NB: "N. Branford", OS: "O. Saybrook", COG: "Coginchaug" };
+    $("goalsPic").innerHTML = `<div class="h">Team</div><div class="h r">Allowed</div><div class="h c">GD</div><div class="h l">Scored</div>` +
+      R.map(r => { const s = r.s, nm = tname(s.id);
+        return `<div class="row ${s.id === CRO ? "cro" : ""}" data-tip="${esc(nm)}: ${s.gf} scored, ${s.ga} allowed in ${s.gp} ${scopeWord} (${f1(s.gp ? s.gf / s.gp : 0)} and ${f1(s.gp ? s.ga / s.gp : 0)} per game), goal difference ${sign(s.gf - s.ga)}">` +
+          `<div class="nm"><span class="fn">${esc(nm)}</span><span class="sn">${esc(SHORTN[s.id] || nm)}</span></div>` +
+          `<div class="sd a"><span class="b" style="width:${w(r.a)}"></span><span class="v">${fv(per ? r.a : s.ga)}</span></div>` +
+          `<div class="gd ${r.d < 0 ? "neg" : ""}">${fd(per ? r.d : s.gf - s.ga)}</div>` +
+          `<div class="sd f"><span class="b" style="width:${w(r.f)}"></span><span class="v">${fv(per ? r.f : s.gf)}</span></div></div>`; }).join("");
+  })();
 
   // Diverging margin rows
   (function marginRows() {
@@ -1433,6 +1498,8 @@ drawHist();
 })();
 
 $("scopeConf").addEventListener("click", () => { SCOPE = "conf"; try { localStorage.setItem("shoreline-scope", SCOPE); } catch (e) {} renderStats(); });
+$("gpTot").addEventListener("click", () => { GP_UNIT = "tot"; renderStats(); });
+$("gpPer").addEventListener("click", () => { GP_UNIT = "pg"; renderStats(); });
 $("scopeAll").addEventListener("click", () => { SCOPE = "all"; try { localStorage.setItem("shoreline-scope", SCOPE); } catch (e) {} renderStats(); });
 renderStats();
 
