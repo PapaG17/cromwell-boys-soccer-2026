@@ -580,7 +580,7 @@ footer .wrap { padding-block: 20px 36px; display: grid; gap: 8px; font-size: .82
 // Shoreline teams use their 3-letter code; anyone else uses their school name.
 // Leave both scores null until the game is played. Preseason (before 9/8) is excluded.
 const SEASON_YEAR = 2026;
-const AS_OF = { results: "2026-10-27", updated: "2026-10-28" };
+const AS_OF = { results: "2026-10-27", updated: "2026-10-29" };
 
 const TEAMS = [
   { id: "CRO", name: "Cromwell", abbr: "CRO", field: "Cromwell HS" },
@@ -745,31 +745,31 @@ const GAMES = [
   ["10/27","3:30 PM","Comp Sci","HR",3,0,"N","Abbe Road Soccer Complex"]
 ];
 
-// CIAC Class S tournament rankings, copied from ciac.fpsports.org on 10/28/2026 (evening).
+// CIAC Class S tournament rankings, copied from ciac.fpsports.org on 10/29/2026 (evening).
 // Seeding uses "Points" (the new power ranking). Qualifying = winning pct .400 or better.
 // "qualifying" = how many teams the CIAC lists as qualifying (ranks 1..qualifying). null points = not shown by CIAC.
 const CIAC_SNAPSHOT = {
-  asOf: "2026-10-28",
-  qualifying: 27,
+  asOf: "2026-10-29",
+  qualifying: 28,
   note: "",
   rows: [
-    [1,"Northwestern","14-1-1",8.68],[2,"Cromwell","12-3-1",8.53,"CRO"],[3,"East Hampton","10-2-2",8.23,"EH"],
-    [4,"Stonington","7-5-4",8.15],[5,"Old Saybrook","11-3-2",8.07,"OS"],[6,"Somers","7-6-2",7.97],
-    [7,"Haddam-Killingworth","11-5-0",7.95,"HK"],[8,"Shepaug Valley","10-5-1",7.94],[9,"Valley Regional","9-3-4",7.87,"VAL"],
-    [10,"Morgan","9-5-2",7.85,"MOR"],[11,"Canton","8-5-2",7.76],[12,"Immaculate","7-6-3",7.66],
-    [13,"Holy Cross","8-3-4",7.54],[14,"Woodland","9-5-2",7.47],[15,"Housatonic Regional","7-9-0",7.45],
-    [16,"Windsor Locks","7-8-1",7.26],[17,"Portland","7-6-3",7.17,"POR"],[18,"Northwest Catholic","6-7-3",7.16],
-    [19,"Terryville","6-9-1",7.13],[20,"Lyman Memorial","11-3-2",6.98],[21,"St. Bernard","10-4-2",6.97],
-    [22,"St. Paul Catholic","6-8-2",6.85],[23,"Innovation","9-5-2",6.76],[24,"Bolton","5-8-3",6.75],
-    [25,"Wheeler","7-3-6",6.69],[26,"Hale Ray","6-9-0",6.60,"HR"],[27,"Aerospace","7-7-2",6.28],
-    [28,"East Catholic","3-9-4",7.40],[29,"Thomaston","6-10-0",7.08],[30,"Lyme-Old Lyme","4-9-3",6.85,"LOL"],
-    [31,"Kolbe Cathedral","1-10-3",6.70],[32,"East Granby","4-8-2",6.67],[33,"East Windsor","5-9-1",6.56],
-    [34,"Oxford","5-9-0",6.45],[35,"Coginchaug","1-12-3",6.14,"COG"],[36,"Notre Dame Prep","0-12-3",6.06],
-    [37,"Gilbert","2-14-0",6.01],[38,"Achievement First","1-7-4",5.95],[39,"Coventry","1-13-2",5.87],
-    [40,"North Branford","3-13-0",5.85,"NB"],[41,"HMTCA","4-10-2",5.81],[42,"Westbrook","1-13-2",5.78,"WB"],
-    [43,"International","3-12-1",5.57],[44,"Bloomfield","0-16-0",5.34],[45,"Derby","0-14-2",5.27],
-    [46,"Tourtellotte","3-12-0",5.00],[47,"ACES Chase Academy","0-16-0",4.89],[48,"Classical Magnet","0-15-0",4.83],
-    [49,"Putnam","0-16-0",4.38]
+    [1,"Northwestern","14-1-1",8.68],[2,"Cromwell","12-3-1",8.54,"CRO"],[3,"East Hampton","10-2-2",8.23,"EH"],
+    [4,"Stonington","7-5-4",8.16],[5,"Old Saybrook","11-3-2",8.08,"OS"],[6,"Somers","7-6-3",7.99],
+    [7,"Haddam-Killingworth","11-5-0",7.96,"HK"],[8,"Shepaug Valley","10-5-1",7.95],[9,"Valley Regional","9-3-4",7.88,"VAL"],
+    [10,"Morgan","9-5-2",7.85,"MOR"],[11,"Canton","8-5-3",7.79],[12,"Immaculate","7-6-3",7.67],
+    [13,"Holy Cross","8-3-4",7.54],[14,"Woodland","9-5-2",7.48],[15,"Housatonic Regional","7-9-0",7.45],
+    [16,"Windsor Locks","7-8-1",7.27],[17,"Portland","7-6-3",7.17,"POR"],[18,"Northwest Catholic","6-7-3",7.16],
+    [19,"Terryville","6-9-1",7.13],[20,"Lyman Memorial","11-3-2",6.99],[21,"St. Bernard","10-4-2",6.97],
+    [22,"St. Paul Catholic","6-8-2",6.85],[23,"East Granby","5-8-2",6.77],[24,"Innovation","9-5-2",6.76],
+    [25,"Bolton","5-8-3",6.76],[26,"Wheeler","7-3-6",6.70],[27,"Hale Ray","6-9-0",6.60,"HR"],
+    [28,"Aerospace","7-7-2",6.28],
+    [29,"East Catholic","3-9-4",7.40],[30,"Thomaston","6-10-0",7.09],[31,"Lyme-Old Lyme","4-9-3",6.86,"LOL"],
+    [32,"Kolbe Cathedral","1-10-3",6.71],[33,"East Windsor","5-9-1",6.57],[34,"Oxford","5-9-0",6.45],
+    [35,"Coginchaug","1-12-3",6.14,"COG"],[36,"Notre Dame Prep","0-12-3",6.07],[37,"Gilbert","2-14-0",6.01],
+    [38,"Achievement First","1-7-4",5.94],[39,"Coventry","1-13-2",5.88],[40,"North Branford","3-13-0",5.85,"NB"],
+    [41,"HMTCA","4-10-2",5.80],[42,"Westbrook","1-13-2",5.78,"WB"],[43,"International","3-12-1",5.57],
+    [44,"Bloomfield","0-16-0",5.34],[45,"Derby","0-14-2",5.27],[46,"Tourtellotte","3-12-0",5.01],
+    [47,"ACES Chase Academy","0-16-0",4.89],[48,"Classical Magnet","0-15-0",4.82],[49,"Putnam","0-16-0",4.40]
   ]
 };
 
